@@ -1,0 +1,124 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.Config,
+input,
+button {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.Config-light,
+.Config-dark {
+  padding: 24px;
+}
+
+.Config-light {
+  color: #232127;
+}
+
+.Config-dark {
+  background-color: #222;
+  color: #e5e3e8;
+}
+
+.Config-dark a {
+  color: #fff;
+}
+
+h1 {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+h2 {
+  font-size: 20px;
+}
+h3 {
+  font-size: 16px;
+}
+
+.label-text {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 32px 0;
+}
+
+.form-control {
+  font-size: 16px;
+  font-weight: 300;
+  padding: 0 6px;
+  margin-top: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 32px;
+  min-width: 420px;
+}
+
+.guide {
+  font-style: italic;
+}
+
+.save-button {
+  color: #fff;
+  background-color: #009900;
+  font-size: 16px;
+  font-weight: 400;
+  display: inline-flex;
+  height: 32px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  line-height: 1.2;
+  border-radius: 4px;
+  border: 1px solid #006600;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition-property: background-color, border;
+  transition-duration: 0.15s;
+  transition-timing-function: ease;
+}
+
+.save-button:hover,
+.save-button:focus {
+  background-color: #006600;
+}
+
+.save-button:focus,
+.save-button:active {
+  outline: none;
+  box-shadow: 0 0 0 1px #003300;
+}
+
+.save-button:active {
+  background-color: #003300;
+}
+
+.contribute {
+  margin-top: 48px;
+}
+
+.block h3 {
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.block h3 + p {
+  margin-top: 6px;
+}
+.block p:last-child {
+  margin-bottom: 0;
+}
