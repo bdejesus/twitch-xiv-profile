@@ -10,10 +10,6 @@ function CharacterSheet({ Character }) {
     Town,
     Server,
     DC,
-    Tribe,
-    Race,
-    Nameday,
-    GuardianDeity,
     FreeCompanyName,
     Bio,
     ActiveClassJob,
@@ -47,23 +43,6 @@ function CharacterSheet({ Character }) {
         freeCompany={FreeCompanyName}
       />
 
-      {/* <div className='bio'>
-          <div>
-              {Tribe.Name} {Race.Name}
-          </div>
-          <div>
-              Nameday: {Nameday}
-          </div>
-          <div>
-              Guardian: {GuardianDeity.Name}
-          </div>
-          <div>
-              Free Company: {FreeCompanyName}
-          </div>
-
-          <div>Bio: {Bio}</div>
-      </div> */}
-
       <div className='activeClassJob'>
         Level {ActiveClassJob.Level} {ActiveClassJob.UnlockedState.Name}
       </div>
@@ -77,6 +56,9 @@ function CharacterSheet({ Character }) {
         </div>
         {gearSlots.map((slot) => <GearSlot key={slot} Gear={GearSet.Gear[slot]} />)}
       </div>
+
+      { Bio && <div className='bio'>{Bio}</div> }
+
     </div>
   );
 }

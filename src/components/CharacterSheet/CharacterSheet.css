@@ -3,7 +3,7 @@
 }
 
 .address {
-  font-size: 10px;
+  font-size: 12px;
   line-height: 12px;
   opacity: 0.66;
 }
@@ -11,18 +11,17 @@
 .activeClassJob {
   font-size: 14px;
   font-weight: 500;
-  margin: 6px 0 4px;
+  margin: 12px 0 4px;
 }
 
 .equipment {
   display: grid;
   grid-template-columns: 40px auto 40px;
   grid-template-rows: repeat(6, 40px);
-  grid-gap: 5px;
+  grid-gap: 8px 6px;
 }
 
 .equipment > div {
-  background-color: rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -34,11 +33,19 @@
   grid-row-start: 1;
   grid-row-end: 7;
   padding: 0;
+  overflow: hidden;
 }
 
 .equipment .portrait img {
   display: block;
   width: 100%;
+  height: 100%;
   position: relative;
-  top: -1px;
+  border-radius: 5px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.bio {
+  margin-top: 10px;
 }

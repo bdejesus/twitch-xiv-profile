@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import React from 'react';
+import fetch from 'node-fetch';
 import Authentication from '../../util/Authentication/Authentication';
 import CharacterSheet from '../CharacterSheet/CharacterSheet';
 
@@ -15,18 +17,14 @@ export default class App extends React.Component {
       finishedLoading: false,
       theme: 'light',
       isVisible: true,
-      data: {}
+      data: {},
+      loadingCharacter: false,
+      error: null
     };
   }
 
   componentDidMount() {
     if (this.twitch) {
-      this.twitch.configuration.onChanged(() => {
-        const config = this.twitch.configuration.broadcaster;
-        console.log('PANEL');
-        console.log(config);
-      });
-
       this.twitch.onAuthorized((auth) => {
         this.Authentication.setToken(auth.token, auth.userId);
         if (!this.state.finishedLoading) {
@@ -50,6 +48,27 @@ export default class App extends React.Component {
 
       this.twitch.onContext((context, delta) => {
         this.contextUpdate(context, delta);
+      });
+
+      this.twitch.configuration.onChanged(() => {
+        if (this.twitch.configuration) {
+          const config = this.twitch.configuration.broadcaster;
+          if (config.content) {
+            this.setState(() => ({ loadingCharacter: true, error: null }));
+            const { characterId } = JSON.parse(config.content);
+            fetch(`https://xivapi.com/character/${characterId}?extended=1`)
+              .then((results) => results.json())
+              .then((data) => {
+                this.setState(() => ({ data, loadingCharacter: false }));
+              })
+              .catch((error) => {
+                this.setState(() => ({
+                  loadingCharacter: false,
+                  error: "Couldn't load FFXIV Character Profile"
+                }));
+              });
+          }
+        }
       });
     }
   }
@@ -78,9 +97,13 @@ export default class App extends React.Component {
       return (
         <div className='App'>
           <div className={this.state.theme === 'light' ? 'App-light' : 'App-dark'}>
-            { Character
-              ? <CharacterSheet Character={Character} />
-              : <div className='not-found'>Character not found</div>}
+            { this.state.loadingCharacter && (
+              <div className='message'>Loading...</div>
+            )}
+            { this.state.error && (
+              <div className='message'>Character not found</div>
+            )}
+            { Character && <CharacterSheet Character={Character} /> }
           </div>
         </div>
       );

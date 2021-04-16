@@ -129,6 +129,11 @@ input[data-error='true'] {
   pointer-events: none;
 }
 
+.info-message {
+  color: #999;
+  margin-left: 10px;
+}
+
 .success-message {
   color: #090;
   font-weight: 700;
@@ -149,4 +154,38 @@ input[data-error='true'] {
 }
 .block p:last-child {
   margin-bottom: 0;
+}
+
+.profile-preview {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #eee;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.Config-dark .profile-preview {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.profile-body {
+  line-height: 1.2;
+}
+
+.profile-body h3 {
+  margin: 0;
+}
+
+.profile-avatar {
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+}
+
+.profile-avatar img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
 }

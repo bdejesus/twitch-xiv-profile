@@ -5,7 +5,7 @@ function NamePlate({
 }) {
   return (
     <div className='header'>
-      <h2>{name}</h2>
+      <h1>{name}</h1>
       {/* <h3>{title}</h3> */}
       { freeCompany && <div><b>&lt;{freeCompany}&gt;</b></div> }
       <div className='address'>{town}, {server}, {datacenter}</div>

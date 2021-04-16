@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { createRef } from 'react';
 import fetch from 'node-fetch';
 import Authentication from '../../util/Authentication/Authentication';
@@ -39,6 +40,14 @@ export default class ConfigPage extends React.Component {
       this.twitch.onContext((context, delta) => {
         this.contextUpdate(context, delta);
       });
+
+      this.twitch.configuration.onChanged(() => {
+        const config = this.twitch.configuration.broadcaster;
+        if (config.content) {
+          const { characterId } = JSON.parse(config.content);
+          this.setState(() => ({ characterId }));
+        }
+      });
     }
   }
 
@@ -49,7 +58,6 @@ export default class ConfigPage extends React.Component {
   }
 
   saveSettings() {
-    // https://na.finalfantasyxiv.com/lodestone/character/6142165/
     const textInputValue = this.textInput.current.value;
     const characterId = textInputValue.split('/')
       .filter((i) => (i && i.match(/^\d*$/)))[0];
@@ -69,32 +77,15 @@ export default class ConfigPage extends React.Component {
       fetch(`https://xivapi.com/character/${characterId}?extended=1`)
         .then((results) => results.json())
         .then((data) => {
-          const dataConfig = {
-            Name: data.Character.Name,
-            Title: data.Character.Title,
-            Town: data.Character.Town,
-            Server: data.Character.Server,
-            DC: data.Character.DC,
-            Tribe: data.Character.Tribe,
-            Race: data.Character.Race,
-            Nameday: data.Character.Nameday,
-            GuardianDeity: data.Character.GuardianDeity,
-            FreeCompanyName: data.Character.FreeCompanyName,
-            Bio: data.Character.Bio,
-            ActiveClassJob: data.Character.ActiveClassJob,
-            Portrait: data.Character.Portrait,
-            GearSet: data.Character.GearSet
-          };
-
           this.setState(() => ({
             error: null,
             success: true,
             isLoading: false,
-            characterId
+            characterId,
+            data: data.Character
           }));
-
           this.twitch.configuration.set(
-            'broadcaster', '1', JSON.stringify(dataConfig)
+            'broadcaster', '2', JSON.stringify({ characterId })
           );
         })
         .catch((error) => {
@@ -123,7 +114,7 @@ export default class ConfigPage extends React.Component {
 
             <label>
               <span className='label-text'>
-                Your Character ID or Lodestone Character URL:
+                Your Character ID or Lodestone Character Profile URL:
               </span>
               <br />
               <input
@@ -154,8 +145,28 @@ export default class ConfigPage extends React.Component {
               Save
             </button>
 
+            { this.state.isLoading && (
+              <span className='info-message'>
+                Fetching character profile...
+              </span>
+            )}
             { this.state.success && (
               <span className='success-message'>Saved!</span>
+            )}
+
+            { this.state.success && (
+              <div className='profile-preview'>
+                {console.log(this.state.data)}
+                <div className='profile-avatar'>
+                  <img src={this.state.data.Avatar} alt={this.state.data.Name} />
+                </div>
+                <div className='profile-body'>
+                  <h3>{this.state.data.Name}</h3>
+                  <div className='activeClassJob'>
+                    Level {this.state.data.ActiveClassJob.Level} {this.state.data.ActiveClassJob.UnlockedState.Name}
+                  </div>
+                </div>
+              </div>
             )}
 
             <div className='contribute'>
