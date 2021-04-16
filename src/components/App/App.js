@@ -21,9 +21,8 @@ export default class App extends React.Component {
 
   componentDidMount() {
     if (this.twitch) {
-      const { configuration } = window.Twitch.ext;
-      configuration.onChanged(() => {
-        const config = configuration.broadcaster;
+      this.twitch.configuration.onChanged(() => {
+        const config = this.twitch.configuration.broadcaster;
         console.log('PANEL');
         console.log(config);
       });

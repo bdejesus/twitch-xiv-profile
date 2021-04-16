@@ -24,10 +24,6 @@ export default class ConfigPage extends React.Component {
   }
 
   componentDidMount() {
-    window.Twitch.ext.configuration.onChanged(() => {
-      console.log('CONFIG');
-      console.log(window.Twitch.ext.configuration.broadcaster);
-    });
     // do config page setup as needed here
     if (this.twitch) {
       this.twitch.onAuthorized((auth) => {
@@ -55,7 +51,8 @@ export default class ConfigPage extends React.Component {
   saveSettings() {
     // https://na.finalfantasyxiv.com/lodestone/character/6142165/
     const textInputValue = this.textInput.current.value;
-    const characterId = textInputValue.split('/').filter((i) => i.match(/[0-9]/))[0];
+    const characterId = textInputValue.split('/')
+      .filter((i) => (i && i.match(/^\d*$/)))[0];
 
     if (!characterId) {
       this.setState(() => ({
@@ -66,8 +63,7 @@ export default class ConfigPage extends React.Component {
       this.setState(() => ({
         error: null,
         success: false,
-        isLoading: true,
-        characterId
+        isLoading: true
       }));
 
       fetch(`https://xivapi.com/character/${characterId}?extended=1`)
@@ -93,17 +89,17 @@ export default class ConfigPage extends React.Component {
           this.setState(() => ({
             error: null,
             success: true,
-            isLoading: false
+            isLoading: false,
+            characterId
           }));
 
-          window.Twitch.ext.configuration.set(
+          this.twitch.configuration.set(
             'broadcaster', '1', JSON.stringify(dataConfig)
           );
-
-          console.log('SAVED!');
         })
         .catch((error) => {
           console.error(error);
+          this.twitch.rig.log(error);
           this.setState(() => ({
             error: 'Character not found',
             success: false,
