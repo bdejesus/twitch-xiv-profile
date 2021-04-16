@@ -18,12 +18,13 @@ export default class App extends React.Component {
       isVisible: true,
       data: {}
     };
-  }
 
-  visibilityChanged(isVisible) {
-    this.setState(() => ({
-      isVisible
-    }));
+    console.log(this.twitch.configuration);
+
+    this.twitch.configuration.onChanged(() => {
+      // This value is ALWAYS null
+      console.log(this.twitch.configuration);
+    });
   }
 
   componentDidMount() {
@@ -37,8 +38,8 @@ export default class App extends React.Component {
       this.twitch.onAuthorized((auth) => {
         this.Authentication.setToken(auth.token, auth.userId);
         if (!this.state.finishedLoading) {
-          const configuration = this.twitch.configuration;
-          console.log(configuration);
+          const { global, broadcaster } = this.twitch.configuration;
+
           // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
 
           // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
@@ -67,6 +68,12 @@ export default class App extends React.Component {
     if (this.twitch) {
       this.twitch.unlisten('broadcast', () => console.log('successfully unlistened'));
     }
+  }
+
+  visibilityChanged(isVisible) {
+    this.setState(() => ({
+      isVisible
+    }));
   }
 
   contextUpdate(context, delta) {

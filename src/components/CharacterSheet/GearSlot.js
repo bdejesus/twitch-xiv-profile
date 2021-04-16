@@ -1,5 +1,3 @@
-import React from 'react';
-
 function GearSlot({ Gear }) {
   if (!Gear) return <div />;
 
@@ -12,7 +10,7 @@ function GearSlot({ Gear }) {
         src={`https://xivapi.com/${Item.Icon}`}
       />
     </div>
-  )
+  );
 }
 
 export default GearSlot;

@@ -1,6 +1,6 @@
-import React from 'react';
-
-function NamePlate({name, title, town, server, datacenter, freeCompany}) {
+function NamePlate({
+  name, title, town, server, datacenter, freeCompany
+}) {
   return (
     <div className='header'>
       <h2>{name}</h2>
@@ -8,7 +8,7 @@ function NamePlate({name, title, town, server, datacenter, freeCompany}) {
       { freeCompany && <div><b>&lt;{freeCompany}&gt;</b></div> }
       <div className='address'>{town}, {server}, {datacenter}</div>
     </div>
-  )
+  );
 }
 
 export default NamePlate;

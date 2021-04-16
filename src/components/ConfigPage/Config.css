@@ -57,6 +57,18 @@ hr {
   margin: 32px 0;
 }
 
+.error-message {
+  color: #900;
+}
+
+input[type='text'] {
+  border: 1px solid currentColor;
+}
+input[data-error='true'] {
+  background-color: #ecc;
+  color: #900;
+}
+
 .form-control {
   font-size: 16px;
   font-weight: 300;

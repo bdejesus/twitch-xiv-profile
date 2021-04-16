@@ -1,4 +1,3 @@
-import React from 'react';
 import NamePlate from './NamePlate';
 import GearSlot from './GearSlot';
 import './CharacterSheet.css';

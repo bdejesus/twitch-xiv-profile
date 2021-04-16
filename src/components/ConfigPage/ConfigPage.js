@@ -12,7 +12,8 @@ export default class ConfigPage extends React.Component {
     this.twitch = window.Twitch ? window.Twitch.ext : null;
     this.state = {
       finishedLoading: false,
-      theme: 'light'
+      theme: 'light',
+      error: null
     };
     this.textInput = createRef();
     this.saveSettings = this.saveSettings.bind(this);
@@ -34,6 +35,11 @@ export default class ConfigPage extends React.Component {
       this.twitch.onContext((context, delta) => {
         this.contextUpdate(context, delta);
       });
+
+      this.twitch.configuration.onChanged(() => {
+        // This value is ALWAYS null
+        console.log(this.twitch.configuration);
+      });
     }
   }
 
@@ -49,6 +55,22 @@ export default class ConfigPage extends React.Component {
     const characterId = textInputValue.split('/').filter((i) => i.match(/[0-9]/))[0];
 
     console.log(characterId);
+
+    if (!characterId) {
+      this.setState(() => ({
+        error: 'Invalid character ID or URL'
+      }));
+    } else {
+      this.setState(() => ({
+        error: null
+      }));
+    }
+
+    this.twitch.configuration.set(
+      'broadcaster',
+      '',
+      JSON.stringify({ characterId })
+    );
   }
 
   render() {
@@ -62,6 +84,7 @@ export default class ConfigPage extends React.Component {
             }
           >
             <h1>Eorzea Profile Panel Configuration</h1>
+
             <label>
               <span className='label-text'>
                 Your Character ID or Lodestone Character URL:
@@ -72,8 +95,14 @@ export default class ConfigPage extends React.Component {
                 name='characterId'
                 className='form-control'
                 ref={this.textInput}
+                data-error={this.state.error !== null}
               />
             </label>
+
+            { this.state.error && (
+              <div className='error-message'>{this.state.error}</div>
+            )}
+
             <p className='guide'>
               <a target='_blank' href='https://na.finalfantasyxiv.com/lodestone/' rel='noreferrer'>Visit the Final Fantasy Lodestone website</a> and log in with your account to access your character profile.
             </p>
