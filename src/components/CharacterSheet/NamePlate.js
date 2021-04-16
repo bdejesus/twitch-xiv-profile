@@ -1,3 +1,5 @@
+import React from 'react';
+
 function NamePlate({
   name, title, town, server, datacenter, freeCompany
 }) {

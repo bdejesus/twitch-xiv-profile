@@ -64,6 +64,7 @@ hr {
 input[type='text'] {
   border: 1px solid currentColor;
 }
+
 input[data-error='true'] {
   background-color: #ecc;
   color: #900;
@@ -78,7 +79,8 @@ input[data-error='true'] {
   align-items: center;
   justify-content: flex-start;
   height: 32px;
-  min-width: 420px;
+  width: 100%;
+  max-width: 420px;
 }
 
 .guide {
@@ -118,6 +120,19 @@ input[data-error='true'] {
 
 .save-button:active {
   background-color: #003300;
+}
+
+.save-button[data-loading='true'] {
+  border-color: #ccc;
+  background-color: #ccc;
+  opacity: 0.66;
+  pointer-events: none;
+}
+
+.success-message {
+  color: #090;
+  font-weight: 700;
+  margin-left: 10px;
 }
 
 .contribute {

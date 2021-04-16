@@ -1,4 +1,5 @@
 import React, { createRef } from 'react';
+import fetch from 'node-fetch';
 import Authentication from '../../util/Authentication/Authentication';
 
 import './Config.css';
@@ -13,13 +14,20 @@ export default class ConfigPage extends React.Component {
     this.state = {
       finishedLoading: false,
       theme: 'light',
-      error: null
+      error: null,
+      success: null,
+      isLoading: false,
+      characterId: undefined
     };
     this.textInput = createRef();
     this.saveSettings = this.saveSettings.bind(this);
   }
 
   componentDidMount() {
+    window.Twitch.ext.configuration.onChanged(() => {
+      console.log('CONFIG');
+      console.log(window.Twitch.ext.configuration.broadcaster);
+    });
     // do config page setup as needed here
     if (this.twitch) {
       this.twitch.onAuthorized((auth) => {
@@ -35,11 +43,6 @@ export default class ConfigPage extends React.Component {
       this.twitch.onContext((context, delta) => {
         this.contextUpdate(context, delta);
       });
-
-      this.twitch.configuration.onChanged(() => {
-        // This value is ALWAYS null
-        console.log(this.twitch.configuration);
-      });
     }
   }
 
@@ -49,28 +52,65 @@ export default class ConfigPage extends React.Component {
     }
   }
 
-  saveSettings(e) {
-    const sampleValue = 'https://na.finalfantasyxiv.com/lodestone/character/6142165/';
+  saveSettings() {
+    // https://na.finalfantasyxiv.com/lodestone/character/6142165/
     const textInputValue = this.textInput.current.value;
     const characterId = textInputValue.split('/').filter((i) => i.match(/[0-9]/))[0];
 
-    console.log(characterId);
-
     if (!characterId) {
       this.setState(() => ({
-        error: 'Invalid character ID or URL'
+        error: 'Invalid character ID or URL',
+        success: false
       }));
     } else {
       this.setState(() => ({
-        error: null
+        error: null,
+        success: false,
+        isLoading: true,
+        characterId
       }));
-    }
 
-    this.twitch.configuration.set(
-      'broadcaster',
-      '',
-      JSON.stringify({ characterId })
-    );
+      fetch(`https://xivapi.com/character/${characterId}?extended=1`)
+        .then((results) => results.json())
+        .then((data) => {
+          const dataConfig = {
+            Name: data.Character.Name,
+            Title: data.Character.Title,
+            Town: data.Character.Town,
+            Server: data.Character.Server,
+            DC: data.Character.DC,
+            Tribe: data.Character.Tribe,
+            Race: data.Character.Race,
+            Nameday: data.Character.Nameday,
+            GuardianDeity: data.Character.GuardianDeity,
+            FreeCompanyName: data.Character.FreeCompanyName,
+            Bio: data.Character.Bio,
+            ActiveClassJob: data.Character.ActiveClassJob,
+            Portrait: data.Character.Portrait,
+            GearSet: data.Character.GearSet
+          };
+
+          this.setState(() => ({
+            error: null,
+            success: true,
+            isLoading: false
+          }));
+
+          window.Twitch.ext.configuration.set(
+            'broadcaster', '1', JSON.stringify(dataConfig)
+          );
+
+          console.log('SAVED!');
+        })
+        .catch((error) => {
+          console.error(error);
+          this.setState(() => ({
+            error: 'Character not found',
+            success: false,
+            isLoading: false
+          }));
+        });
+    }
   }
 
   render() {
@@ -96,6 +136,7 @@ export default class ConfigPage extends React.Component {
                 className='form-control'
                 ref={this.textInput}
                 data-error={this.state.error !== null}
+                placeholder={this.state.characterId}
               />
             </label>
 
@@ -111,9 +152,15 @@ export default class ConfigPage extends React.Component {
               type='button'
               className='save-button'
               onClick={this.saveSettings}
+              disabled={this.state.isLoading}
+              data-loading={this.state.isLoading}
             >
               Save
             </button>
+
+            { this.state.success && (
+              <span className='success-message'>Saved!</span>
+            )}
 
             <div className='contribute'>
               <a

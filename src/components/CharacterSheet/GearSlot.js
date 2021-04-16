@@ -1,3 +1,5 @@
+import React from 'react';
+
 function GearSlot({ Gear }) {
   if (!Gear) return <div />;
 
