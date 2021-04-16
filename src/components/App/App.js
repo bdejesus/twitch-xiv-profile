@@ -3,6 +3,7 @@ import React from 'react';
 import fetch from 'node-fetch';
 import Authentication from '../../util/Authentication/Authentication';
 import CharacterSheet from '../CharacterSheet/CharacterSheet';
+import Footer from './Footer';
 
 import './App.css';
 
@@ -50,24 +51,11 @@ export default class App extends React.Component {
         this.contextUpdate(context, delta);
       });
 
-      this.twitch.configuration.onChanged(() => {
-        if (this.twitch.configuration) {
-          const config = this.twitch.configuration.broadcaster;
-          if (config.content) {
-            this.setState(() => ({ loadingCharacter: true, error: null }));
-            const { characterId } = JSON.parse(config.content);
-            fetch(`https://xivapi.com/character/${characterId}?extended=1`)
-              .then((results) => results.json())
-              .then((data) => {
-                this.setState(() => ({ data, loadingCharacter: false }));
-              })
-              .catch((error) => {
-                this.setState(() => ({
-                  loadingCharacter: false,
-                  error: "Couldn't load FFXIV Character Profile"
-                }));
-              });
-          }
+      const configuration = this.twitch.configuration;
+      configuration.onChanged(() => {
+        if (configuration && configuration.broadcaster.content) {
+          const config = JSON.parse(configuration.broadcaster.content);
+          this.fetchCharacterData(config.characterId);
         }
       });
     }
@@ -91,19 +79,38 @@ export default class App extends React.Component {
     }
   }
 
+  fetchCharacterData(id) {
+    this.setState(() => ({ loadingCharacter: true, error: null }));
+
+    fetch(`https://xivapi.com/character/${id}?extended=1`)
+      .then((results) => results.json())
+      .then((data) => {
+        this.setState(() => ({ data, loadingCharacter: false }));
+      })
+      .catch((error) => {
+        this.setState(() => ({
+          loadingCharacter: false,
+          error: "Couldn't load FFXIV Character Profile"
+        }));
+      });
+  }
+
   render() {
     if (this.state.finishedLoading && this.state.isVisible) {
-      const { Character } = this.state.data;
+      const {
+        loadingCharacter, error, data, theme
+      } = this.state;
+      const { Character } = data;
       return (
         <div className='App'>
-          <div className={this.state.theme === 'light' ? 'App-light' : 'App-dark'}>
-            { this.state.loadingCharacter && (
-              <div className='message'>Loading...</div>
-            )}
-            { this.state.error && (
-              <div className='message'>Character not found</div>
-            )}
+          <div
+            className={theme === 'light' ? 'App-light' : 'App-dark'}
+          >
+            { loadingCharacter && <div className='message'>Loading...</div> }
+            { error && <div className='message'>Character not found</div> }
             { Character && <CharacterSheet Character={Character} /> }
+
+            <Footer />
           </div>
         </div>
       );

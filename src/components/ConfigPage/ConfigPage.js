@@ -2,7 +2,8 @@
 import React, { createRef } from 'react';
 import fetch from 'node-fetch';
 import Authentication from '../../util/Authentication/Authentication';
-
+import OtherTools from './OtherTools';
+import Contribute from './Contribute';
 import './Config.css';
 
 export default class ConfigPage extends React.Component {
@@ -41,10 +42,10 @@ export default class ConfigPage extends React.Component {
         this.contextUpdate(context, delta);
       });
 
-      this.twitch.configuration.onChanged(() => {
-        const config = this.twitch.configuration.broadcaster;
-        if (config.content) {
-          const { characterId } = JSON.parse(config.content);
+      const configuration = this.twitch.configuration;
+      configuration.onChanged(() => {
+        if (configuration.broadcaster.content) {
+          const { characterId } = JSON.parse(configuration.broadcaster.content);
           this.setState(() => ({ characterId }));
         }
       });
@@ -92,9 +93,10 @@ export default class ConfigPage extends React.Component {
           console.error(error);
           this.twitch.rig.log(error);
           this.setState(() => ({
-            error: 'Character not found',
+            error: 'Cound not fetch character',
             success: false,
-            isLoading: false
+            isLoading: false,
+            data: null
           }));
         });
     }
@@ -150,11 +152,18 @@ export default class ConfigPage extends React.Component {
                 Fetching character profile...
               </span>
             )}
-            { this.state.success && (
+
+            {this.state.success && !this.state.data && (
+              <p className='error-message'>
+                Could not find character. Please make sure you entered the correct ID or URL.
+              </p>
+            )}
+
+            { this.state.success && this.state.data && (
               <span className='success-message'>Saved!</span>
             )}
 
-            { this.state.success && (
+            { this.state.success && this.state.data && (
               <div className='profile-preview'>
                 {console.log(this.state.data)}
                 <div className='profile-avatar'>
@@ -169,39 +178,13 @@ export default class ConfigPage extends React.Component {
               </div>
             )}
 
-            <div className='contribute'>
-              <a
-                href='https://github.com/bdejesus/twitch-xiv-profile'
-                target='_blank'
-                rel='noreferrer'
-              >
-                Github
-              </a>
-            &nbsp;•&nbsp;
-              <a href='https://github.com/bdejesus/twitch-xiv-profile' target='_blank' rel='noreferrer'>
-                Report an Issue or Request a Feature
-              </a>
-              &nbsp; |&nbsp;
-              Powered by <a href='https://xivapi.com'>XIVAPI</a>
-            </div>
+            <hr />
+
+            <OtherTools />
 
             <hr />
 
-            <h2>Other Tools</h2>
-            <div className='block'>
-              <h3>
-                <a
-                  href='https://xivbars.bejezus.com'
-                  target='_blank'
-                  rel='noreferrer'
-                >
-                  XIV Bars – W Cross Hotbar Planner &amp; Simulator
-                </a>
-              </h3>
-              <p>
-                A Final Fantasy XIV W Cross Hotbar (WXHB) Planning and Simulation Tool. Lay out and export your Final Fantasy XIV Hotbars for any Job/Class and export to a macro or share with others!
-              </p>
-            </div>
+            <Contribute />
           </div>
         </div>
       );

@@ -1,16 +1,36 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function NamePlate({
-  name, title, town, server, datacenter, freeCompany
+  name, title, titleTop, town, server, datacenter, freeCompany
 }) {
   return (
     <div className='header'>
+      { titleTop && title && <h3 className='title'>{title}</h3> }
       <h1>{name}</h1>
-      {/* <h3>{title}</h3> */}
-      { freeCompany && <div><b>&lt;{freeCompany}&gt;</b></div> }
+      { !titleTop && title && <h3 className='title'>{title}</h3> }
+      { freeCompany && (
+        <div className='freeCompany'>&lt;{freeCompany}&gt;</div>
+      )}
       <div className='address'>{town}, {server}, {datacenter}</div>
     </div>
   );
 }
+
+NamePlate.propTypes = {
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  titleTop: PropTypes.bool,
+  town: PropTypes.string.isRequired,
+  server: PropTypes.string.isRequired,
+  datacenter: PropTypes.string.isRequired,
+  freeCompany: PropTypes.string
+};
+
+NamePlate.defaultProps = {
+  title: undefined,
+  titleTop: undefined,
+  freeCompany: undefined
+};
 
 export default NamePlate;
