@@ -170,8 +170,8 @@ export default class ConfigPage extends React.Component {
               <a href='https://github.com/bdejesus/twitch-xiv-profile' target='_blank' rel='noreferrer'>
                 Report an Issue or Request a Feature
               </a>
-            &nbsp;|&nbsp;
-              <a href='https://xivapi.com'>XIVAPI</a>
+              &nbsp; |&nbsp;
+              Powered by <a href='https://xivapi.com'>XIVAPI</a>
             </div>
 
             <hr />
