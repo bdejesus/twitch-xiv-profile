@@ -3,6 +3,7 @@ import React from 'react';
 function Contribute() {
   return (
     <div className='contribute'>
+      <h3>Support</h3>
       <a
         href='https://github.com/bdejesus/twitch-xiv-profile'
         target='_blank'

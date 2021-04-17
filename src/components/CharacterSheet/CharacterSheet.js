@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import NamePlate from './NamePlate';
 import GearSlot from './GearSlot';
 import './CharacterSheet.css';
 
 function CharacterSheet({ Character }) {
+  const [activeItem, setActiveItem] = useState();
   const {
     Name,
     Title,
@@ -34,6 +35,10 @@ function CharacterSheet({ Character }) {
     'Ring2'
   ];
 
+  function handleActivate(e) {
+    setActiveItem(e);
+  }
+
   return (
     <div className='character-sheet'>
       <NamePlate
@@ -55,9 +60,44 @@ function CharacterSheet({ Character }) {
           <img
             src={Portrait}
             alt='Portrait'
+            className='portrait-img'
           />
+
+          { activeItem && (
+            <div className='item-tooltip'>
+              {console.log(activeItem)}
+
+              <div className='equipped-item'>
+                <div className='icon'>
+                  <img src={`https://xivapi.com/${activeItem.Item.Icon}`} />
+                </div>
+                <div className='item-desc'>
+                  <h3>{activeItem.Item.Name}</h3>
+                </div>
+              </div>
+
+              { activeItem.Mirage && (
+                <div className='glamour-item'>
+                  <div className='icon'>
+                    <img src={`https://xivapi.com/${activeItem.Mirage.Icon}`} />
+                  </div>
+                  <div className='item-desc'>
+                    <h4>Glamour</h4>
+                    <div className='glamour-name'>{activeItem.Mirage.Name}</div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-        {gearSlots.map((slot) => <GearSlot key={slot} Gear={GearSet.Gear[slot]} />)}
+
+        {gearSlots.map((slot) => (
+          <GearSlot
+            key={slot}
+            Gear={GearSet.Gear[slot]}
+            onActive={handleActivate}
+          />
+        ))}
       </div>
 
       { Bio && <div className='bio'>{Bio}</div> }

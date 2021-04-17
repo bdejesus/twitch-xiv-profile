@@ -3,7 +3,6 @@ import React from 'react';
 import fetch from 'node-fetch';
 import Authentication from '../../util/Authentication/Authentication';
 import CharacterSheet from '../CharacterSheet/CharacterSheet';
-import Footer from './Footer';
 
 import './App.css';
 
@@ -109,8 +108,6 @@ export default class App extends React.Component {
             { loadingCharacter && <div className='message'>Loading...</div> }
             { error && <div className='message'>Character not found</div> }
             { Character && <CharacterSheet Character={Character} /> }
-
-            <Footer />
           </div>
         </div>
       );

@@ -3,7 +3,6 @@ import React from 'react';
 function OtherTools() {
   return (
     <div>
-      <h2>Other Tools</h2>
       <div className='block'>
         <h3>
           <a
@@ -11,11 +10,11 @@ function OtherTools() {
             target='_blank'
             rel='noreferrer'
           >
-            XIV Bars – W Cross Hotbar Planner &amp; Simulator
+            Share your hotbar layotus with the FFXIV W Cross Hotbar Planner &amp; Simulator
           </a>
         </h3>
         <p>
-          A Final Fantasy XIV W Cross Hotbar (WXHB) Planning and Simulation Tool. Lay out and export your Final Fantasy XIV Hotbars for any Job/Class and export to a macro or share with others!
+          Plan your Final Fantasy XIV Hotbars layout for any Job/Class and export to a macro or share with your viewers!
         </p>
       </div>
     </div>
