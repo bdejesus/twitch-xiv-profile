@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import './GearSlot.css';
+
 function GearSlot({ Gear, onActive }) {
   if (!Gear) return <div />;
   const { Name, Icon } = Gear.Item;

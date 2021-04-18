@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import NamePlate from './NamePlate';
 import GearSlot from './GearSlot';
+import Tooltip from './Tooltip';
 import './CharacterSheet.css';
 
 function CharacterSheet({ Character }) {
@@ -64,30 +65,7 @@ function CharacterSheet({ Character }) {
           />
 
           { activeItem && (
-            <div className='item-tooltip'>
-              {console.log(activeItem)}
-
-              <div className='equipped-item'>
-                <div className='icon'>
-                  <img src={`https://xivapi.com/${activeItem.Item.Icon}`} />
-                </div>
-                <div className='item-desc'>
-                  <h3>{activeItem.Item.Name}</h3>
-                </div>
-              </div>
-
-              { activeItem.Mirage && (
-                <div className='glamour-item'>
-                  <div className='icon'>
-                    <img src={`https://xivapi.com/${activeItem.Mirage.Icon}`} />
-                  </div>
-                  <div className='item-desc'>
-                    <h4>Glamour</h4>
-                    <div className='glamour-name'>{activeItem.Mirage.Name}</div>
-                  </div>
-                </div>
-              )}
-            </div>
+            <Tooltip activeItem={activeItem} />
           )}
         </div>
 

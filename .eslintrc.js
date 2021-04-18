@@ -50,7 +50,7 @@ module.exports = {
       },
     ],
     'jsx-a11y/media-has-caption': 'warn',
-    'jsx-a11y/mouse-events-have-key-events': 'warn',
+    'jsx-a11y/mouse-events-have-key-events': 'off',
     'jsx-a11y/no-access-key': 'warn',
     'jsx-a11y/no-autofocus': 'warn',
     'jsx-a11y/no-distracting-elements': 'warn',

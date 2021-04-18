@@ -1,0 +1,15 @@
+.slot-item {
+  display: flex;
+  align-items: flex-start;
+  border-radius: 5px;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.slot-item img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}

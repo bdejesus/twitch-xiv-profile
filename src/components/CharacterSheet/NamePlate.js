@@ -2,10 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function NamePlate({
-  name, title, titleTop, town, server, datacenter, freeCompany
+  name,
+  title,
+  titleTop,
+  town,
+  server,
+  datacenter,
+  freeCompany
 }) {
   return (
-    <div className='header'>
+    <div className='name-plate'>
       { titleTop && title && <h3 className='title'>{title}</h3> }
       <h1>{name}</h1>
       { !titleTop && title && <h3 className='title'>{title}</h3> }

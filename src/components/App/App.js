@@ -38,7 +38,6 @@ export default class App extends React.Component {
       this.twitch.listen('broadcast', (target, contentType, body) => {
         this.twitch.rig.log(`New PubSub message!\n${target}\n${contentType}\n${body}`);
         // now that you've got a listener, do something with the result...
-
         // do something...
       });
 
@@ -91,6 +90,7 @@ export default class App extends React.Component {
           loadingCharacter: false,
           error: "Couldn't load FFXIV Character Profile"
         }));
+        console.error(error);
       });
   }
 

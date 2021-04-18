@@ -2,27 +2,6 @@
   padding: 8px 10px;
 }
 
-.header {
-  line-height: 1.2em;
-}
-
-.title {
-  font-size: 12px;
-  font-weight: 400;
-  opacity: 0.66;
-}
-
-.freeCompany {
-  font-weight: 500;
-}
-
-.address {
-  font-size: 12px;
-  line-height: 1.45;
-  opacity: 0.66;
-  margin-top: 4px;
-}
-
 .activeClassJob {
   font-size: 14px;
   font-weight: 500;
@@ -39,13 +18,7 @@
 }
 
 .slot-item {
-  display: flex;
-  align-items: flex-start;
   box-shadow: 0 0 0 rgba(255, 255, 255, 0);
-  border-radius: 5px;
-  justify-content: center;
-  position: relative;
-  cursor: pointer;
   transition: opacity 0.33s ease, box-shadow 0.33s ease;
 }
 
@@ -55,63 +28,10 @@
 
 .equipment:hover .slot-item:hover {
   opacity: 1;
-  box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.66);
+  box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.33);
 }
 
-.item-tooltip {
-  color: #fff;
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.66);
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  padding: 10px;
-  transition: opacity 0.33s ease;
-  animation: enterTooltip 0.33s ease;
-  animation-fill-mode: forwards;
-}
-
-@keyframes enterTooltip {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.equipped-item,
-.glamour-item {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-
-.item-tooltip h3 {
-  margin: 0;
-  font-size: 14px;
-}
-
-.item-tooltip h4 {
-  margin: 0;
-  font-size: 10px;
-  font-weight: 400;
-  opacity: 0.66;
-}
-
-.item-tooltip .icon {
-  height: 40px;
-  min-width: 40px;
-}
-
-.item-tooltip .item-desc {
-  flex: 1 1 auto;
-  padding-left: 10px;
-}
-
-.equipment .portrait {
+.portrait {
   grid-column-start: 2;
   grid-column-end: 3;
   grid-row-start: 1;
@@ -121,18 +41,24 @@
   position: relative;
   border-radius: 5px;
   overflow: hidden;
-  box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.66);
+  box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.33);
 }
 
-.equipment .portrait-img {
+.portrait-img {
   display: block;
   width: 100%;
   height: 100%;
   position: relative;
   object-fit: cover;
   object-position: center;
+  transition: transform 0.33s linear;
+}
+
+.portrait-img:hover {
+  transition: transform 6s linear;
+  transform: scale(1.1);
 }
 
 .bio {
-  margin-top: 16px;
+  margin-top: 24px;
 }

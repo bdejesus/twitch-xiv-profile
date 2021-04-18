@@ -1,0 +1,20 @@
+.name-plate {
+  line-height: 1.2em;
+}
+
+.title {
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.66;
+}
+
+.freeCompany {
+  font-weight: 500;
+}
+
+.address {
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.66;
+  margin-top: 4px;
+}
