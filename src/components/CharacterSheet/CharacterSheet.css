@@ -44,18 +44,6 @@
   box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.33);
 }
 
-@keyframes enterPortrait {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 .portrait-img {
   display: block;
   width: 100%;
@@ -63,8 +51,12 @@
   position: relative;
   object-fit: cover;
   object-position: center;
-  animation: enterPortrait 20s linear infinite;
-  animation-fill-mode: forwards;
+  transition: transform 10s linear;
+  transform: scale(1);
+}
+
+.portrait:hover portrait-img {
+  transform: scale(1.1);
 }
 
 .bio {
