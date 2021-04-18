@@ -80,7 +80,6 @@ export default class ConfigPage extends React.Component {
     fetch(`https://xivapi.com/character/${characterId}?extended=1`)
       .then((results) => results.json())
       .then((data) => {
-        console.log(data);
         const message = data.Error
           ? {
             type: 'error',
