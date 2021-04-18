@@ -16,12 +16,6 @@ export default class LiveConfigPage extends React.Component {
     };
   }
 
-  contextUpdate(context, delta) {
-    if (delta.includes('theme')) {
-      this.setState(() => ({ theme: context.theme }));
-    }
-  }
-
   componentDidMount() {
     if (this.twitch) {
       this.twitch.onAuthorized((auth) => {
@@ -50,6 +44,12 @@ export default class LiveConfigPage extends React.Component {
   componentWillUnmount() {
     if (this.twitch) {
       this.twitch.unlisten('broadcast', () => console.log('successfully unlistened'));
+    }
+  }
+
+  contextUpdate(context, delta) {
+    if (delta.includes('theme')) {
+      this.setState(() => ({ theme: context.theme }));
     }
   }
 

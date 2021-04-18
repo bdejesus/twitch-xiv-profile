@@ -1,0 +1,10 @@
+.block h3 {
+  font-weight: 400;
+  margin-bottom: 0;
+}
+.block h3 + p {
+  margin-top: 6px;
+}
+.block p:last-child {
+  margin-bottom: 0;
+}

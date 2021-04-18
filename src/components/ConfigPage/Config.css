@@ -57,22 +57,10 @@ hr {
   margin: 32px 0;
 }
 
-.error-message {
-  color: #900;
-}
-
 input[type='text'] {
   border: 1px solid currentColor;
-}
-
-input[data-error='true'] {
-  background-color: #ecc;
-  color: #900;
-}
-
-.form-control {
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   padding: 0 6px;
   margin-top: 6px;
   display: inline-flex;
@@ -81,6 +69,11 @@ input[data-error='true'] {
   height: 32px;
   width: 100%;
   max-width: 420px;
+}
+
+input[data-state='error'] {
+  background-color: rgba(255, 180, 180, 0.66);
+  color: #900;
 }
 
 .guide {
@@ -122,69 +115,13 @@ input[data-error='true'] {
   background-color: #003300;
 }
 
-.save-button[data-loading='true'] {
+.save-button[data-state='loading'] {
   border-color: #ccc;
   background-color: #ccc;
   opacity: 0.66;
   pointer-events: none;
 }
 
-.info-message {
-  color: #999;
-  margin-left: 10px;
-}
-
-.success-message {
-  color: #090;
-  font-weight: 700;
-  margin-left: 10px;
-}
-
 .contribute {
   font-size: 12px;
-}
-
-.block h3 {
-  font-weight: 400;
-  margin-bottom: 0;
-}
-.block h3 + p {
-  margin-top: 6px;
-}
-.block p:last-child {
-  margin-bottom: 0;
-}
-
-.profile-preview {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: #eee;
-  padding: 10px;
-  margin-top: 10px;
-}
-
-.Config-dark .profile-preview {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.profile-body {
-  line-height: 1.2;
-}
-
-.profile-body h3 {
-  margin: 0;
-}
-
-.profile-avatar {
-  height: 50px;
-  width: 50px;
-  margin-right: 10px;
-}
-
-.profile-avatar img {
-  display: block;
-  height: 100%;
-  width: 100%;
-  border-radius: 5px;
 }

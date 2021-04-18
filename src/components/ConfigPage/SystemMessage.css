@@ -1,0 +1,19 @@
+.message {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.message[data-type='error'] {
+  background-color: rgba(200, 0, 0, 0.8);
+  color: #fff;
+}
+
+.message[data-type='loading'] {
+  background-color: rgba(200, 200, 200, 0.66);
+  color: #333;
+}
+
+.message[data-type='success'] {
+  background-color: rgba(0, 160, 0, 0.8);
+  color: #fff;
+}

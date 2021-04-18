@@ -4,6 +4,8 @@ import fetch from 'node-fetch';
 import Authentication from '../../util/Authentication/Authentication';
 import OtherTools from './OtherTools';
 import Contribute from './Contribute';
+import SystemMessage from './SystemMessage';
+import ProfilePreview from './ProfilePreview';
 import './Config.css';
 
 export default class ConfigPage extends React.Component {
@@ -16,9 +18,7 @@ export default class ConfigPage extends React.Component {
     this.state = {
       finishedLoading: false,
       theme: 'light',
-      error: null,
-      success: null,
-      isLoading: false,
+      message: undefined,
       characterId: undefined
     };
     this.textInput = createRef();
@@ -65,41 +65,46 @@ export default class ConfigPage extends React.Component {
 
     if (!characterId) {
       this.setState(() => ({
-        error: 'Invalid character ID or URL',
-        success: false
+        message: { type: 'error', message: 'Invalid character ID or URL' }
       }));
     } else {
       this.setState(() => ({
-        error: null,
-        success: false,
-        isLoading: true
+        message: { type: 'loading', message: 'Fetching character profie...' },
       }));
 
-      fetch(`https://xivapi.com/character/${characterId}?extended=1`)
-        .then((results) => results.json())
-        .then((data) => {
-          this.setState(() => ({
-            error: null,
-            success: true,
-            isLoading: false,
-            characterId,
-            data: data.Character
-          }));
-          this.twitch.configuration.set(
-            'broadcaster', '2', JSON.stringify({ characterId })
-          );
-        })
-        .catch((error) => {
-          console.error(error);
-          this.twitch.rig.log(error);
-          this.setState(() => ({
-            error: 'Cound not fetch character',
-            success: false,
-            isLoading: false,
-            data: null
-          }));
-        });
+      this.fetchCharacterData(characterId);
     }
+  }
+
+  fetchCharacterData(characterId) {
+    fetch(`https://xivapi.com/character/${characterId}?extended=1`)
+      .then((results) => results.json())
+      .then((data) => {
+        console.log(data);
+        const message = data.Error
+          ? {
+            type: 'error',
+            message: 'Could not find character. Please make sure you entered the correct ID or URL.'
+          }
+          : { type: 'success', message: 'Character profile found!' };
+
+        this.setState(() => ({
+          message,
+          characterId,
+          data: data.Character
+        }));
+        this.twitch.configuration.set(
+          'broadcaster', '2', JSON.stringify({ characterId })
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+        this.twitch.rig.log(error);
+        this.setState(() => ({
+          message: { type: 'error', message: 'Could not fetch character' },
+          data: null
+        }));
+      });
   }
 
   render() {
@@ -107,12 +112,22 @@ export default class ConfigPage extends React.Component {
       return (
         <div className='Config'>
           <div className={
-              this.state.theme === 'light'
-                ? 'Config-light'
-                : 'Config-dark'
+              this.state.theme === 'light' ? 'Config-light' : 'Config-dark'
             }
           >
             <h1>Eorzea Profile Panel Configuration</h1>
+
+            { this.state.message && (
+              <SystemMessage message={this.state.message} />
+            )}
+
+            { this.state.data && (
+              <ProfilePreview
+                avatar={this.state.data.Avatar}
+                name={this.state.data.Name}
+                classJob={this.state.data.ActiveClassJob}
+              />
+            )}
 
             <label>
               <span className='label-text'>
@@ -124,14 +139,10 @@ export default class ConfigPage extends React.Component {
                 name='characterId'
                 className='form-control'
                 ref={this.textInput}
-                data-error={this.state.error !== null}
+                data-state={this.state.message ? this.state.message.type : null}
                 placeholder={this.state.characterId}
               />
             </label>
-
-            { this.state.error && (
-              <div className='error-message'>{this.state.error}</div>
-            )}
 
             <p className='guide'>
               <a target='_blank' href='https://na.finalfantasyxiv.com/lodestone/' rel='noreferrer'>Visit the Final Fantasy Lodestone website</a> and log in with your account to access your character profile.
@@ -141,42 +152,13 @@ export default class ConfigPage extends React.Component {
               type='button'
               className='save-button'
               onClick={this.saveSettings}
-              disabled={this.state.isLoading}
-              data-loading={this.state.isLoading}
+              disabled={
+                this.state.message && this.state.message.type === 'loading'
+              }
+              data-state={this.state.message ? this.state.message.type : null}
             >
               Save
             </button>
-
-            { this.state.isLoading && (
-              <span className='info-message'>
-                Fetching character profile...
-              </span>
-            )}
-
-            {this.state.success && !this.state.data && (
-              <p className='error-message'>
-                Could not find character. Please make sure you entered the correct ID or URL.
-              </p>
-            )}
-
-            { this.state.success && this.state.data && (
-              <span className='success-message'>Saved!</span>
-            )}
-
-            { this.state.success && this.state.data && (
-              <div className='profile-preview'>
-                {console.log(this.state.data)}
-                <div className='profile-avatar'>
-                  <img src={this.state.data.Avatar} alt={this.state.data.Name} />
-                </div>
-                <div className='profile-body'>
-                  <h3>{this.state.data.Name}</h3>
-                  <div className='activeClassJob'>
-                    Level {this.state.data.ActiveClassJob.Level} {this.state.data.ActiveClassJob.UnlockedState.Name}
-                  </div>
-                </div>
-              </div>
-            )}
 
             <hr />
 
