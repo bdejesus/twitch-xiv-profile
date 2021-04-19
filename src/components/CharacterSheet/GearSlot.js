@@ -23,7 +23,6 @@ function GearSlot({ Gear, onActive }) {
     >
       <img
         alt={Name}
-        title={Name}
         src={`https://xivapi.com/${Icon}`}
       />
     </div>

@@ -8,6 +8,7 @@ import './CharacterSheet.css';
 function CharacterSheet({ Character }) {
   const [activeItem, setActiveItem] = useState();
   const {
+    Avatar,
     Name,
     Title,
     TitleTop,
@@ -20,6 +21,8 @@ function CharacterSheet({ Character }) {
     Portrait,
     GearSet
   } = Character;
+
+  console.log(Character);
 
   const gearSlots = [
     'MainHand',
@@ -43,6 +46,7 @@ function CharacterSheet({ Character }) {
   return (
     <div className='character-sheet'>
       <NamePlate
+        avatar={Avatar}
         name={Name}
         title={Title.Name}
         titleTop={TitleTop}

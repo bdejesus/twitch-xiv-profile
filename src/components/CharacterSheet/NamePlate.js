@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './NamePlate.css';
 
 function NamePlate({
+  avatar,
   name,
   title,
   titleTop,
@@ -12,18 +14,25 @@ function NamePlate({
 }) {
   return (
     <div className='name-plate'>
-      { titleTop && title && <h3 className='title'>{title}</h3> }
-      <h1>{name}</h1>
-      { !titleTop && title && <h3 className='title'>{title}</h3> }
-      { freeCompany && (
-        <div className='freeCompany'>&lt;{freeCompany}&gt;</div>
-      )}
-      <div className='address'>{town}, {server}, {datacenter}</div>
+      <div className='avatar'>
+        <img src={avatar} alt='Avatar' />
+      </div>
+
+      <div className='name-body'>
+        { titleTop && title && <h2 className='title'>{title}</h2> }
+        <h1>{name}</h1>
+        { !titleTop && title && <h2 className='title'>{title}</h2> }
+        { freeCompany && (
+          <div className='freeCompany'>&lt;{freeCompany}&gt;</div>
+        )}
+        <div className='address'>{town}, {server}, {datacenter}</div>
+      </div>
     </div>
   );
 }
 
 NamePlate.propTypes = {
+  avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
   titleTop: PropTypes.bool,

@@ -1,5 +1,21 @@
 .name-plate {
   line-height: 1.2em;
+  display: flex;
+  flex-direction: row;
+}
+
+.name-body {
+  flex: 1 1 auto;
+}
+
+.avatar {
+  height: 48px;
+  width: 48px;
+  margin-right: 10px;
+}
+
+.avatar img {
+  border-radius: 4px;
 }
 
 .title {
