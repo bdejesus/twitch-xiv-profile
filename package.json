@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production",
-    "dist": "npm run build; zip -r ../dist.zip dist/*",
+    "dist": "npm run build; zip -r ../twitch-xiv-profile.zip dist/*",
     "start": "webpack-dev-server --mode development",
     "cert": "./bin/generate_cert.sh server",
     "host": "webpack-dev-server --mode development --devrig"
