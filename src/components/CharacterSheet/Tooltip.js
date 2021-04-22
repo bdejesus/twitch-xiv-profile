@@ -17,16 +17,18 @@ function Tooltip({ activeItem }) {
       </div>
 
       { Mirage && (
-        <div className='glamour-item'>
-          <div className='icon'>
-            <img
-              src={`https://xivapi.com/${Mirage.Icon}`}
-              alt={`[${Mirage.Name}]`}
-            />
-          </div>
-          <div className='item-desc'>
-            <h4>Glamour</h4>
-            <div className='glamour-name'>{Mirage.Name}</div>
+        <div className='glamour'>
+          <h4>Glamour</h4>
+          <div className='glamour-item'>
+            <div className='icon'>
+              <img
+                src={`https://xivapi.com/${Mirage.Icon}`}
+                alt={`[${Mirage.Name}]`}
+              />
+            </div>
+            <div className='item-desc'>
+              <div className='glamour-name'>{Mirage.Name}</div>
+            </div>
           </div>
         </div>
       )}

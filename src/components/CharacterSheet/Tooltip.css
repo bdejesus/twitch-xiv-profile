@@ -10,6 +10,7 @@
   transition: opacity 0.33s ease;
   animation: enterTooltip 0.33s ease;
   animation-fill-mode: forwards;
+  line-height: 1.2em;
 }
 
 @keyframes enterTooltip {
@@ -21,12 +22,16 @@
   }
 }
 
+h4 {
+  text-align: center;
+}
+
 .equipped-item,
 .glamour-item {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 .item-tooltip h3 {
@@ -49,4 +54,11 @@
 .item-tooltip .item-desc {
   flex: 1 1 auto;
   padding-left: 10px;
+}
+
+.glamour {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  padding: 0 6px 6px;
+  margin-top: 12px;
 }

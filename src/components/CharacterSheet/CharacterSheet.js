@@ -54,6 +54,8 @@ function CharacterSheet({ Character }) {
         freeCompany={FreeCompanyName}
       />
 
+      <hr />
+
       <div className='activeClassJob'>
         Level {ActiveClassJob.Level} {ActiveClassJob.UnlockedState.Name}
       </div>
