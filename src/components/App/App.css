@@ -38,10 +38,8 @@ hr {
 .App-dark {
   background-color: #3b3a3d;
   background-image: linear-gradient(#716d6d 0%, #3b3a3d 20px);
-  box-shadow: inset 1px 1px 0 #707065, inset -1px -1px 0 #4b4740,
-    inset 2px 2px 0 #aca78e, inset -2px 2px 0 #aca78e, inset -3px -3px 0 #81796a,
-    inset 3px 3px 0 #8a7e5d, inset 1px -4px 0 #7f7869,
-    inset -4px -4px 1px #4c4644, inset 5px 5px 1px #302720;
+  border: 5px ridge #aca78e;
+  box-shadow: inset 1px 1px 1px #4c4644;
   color: #c4c1b2;
 }
 
@@ -52,11 +50,7 @@ hr {
 .App-light {
   background-color: #f1dfc0;
   background-image: linear-gradient(#fcf9f3 0%, #f1dfc0 20px);
-  box-shadow: inset 1px 1px 0 #b3b19b, inset -1px -1px 0 #4b4740,
-    inset 2px 2px 0 #aca78e, inset -2px 2px 0 #aaa68b, inset -3px -3px 0 #81796a,
-    inset 3px 3px 0 #8a7e5d, inset 3px -4px 0 #8a7e5d,
-    inset -5px -5px 1px #bcb29e, inset 4px 4px 1px #463b2b,
-    inset -6px 3px 0px #7a7263;
+  border: 5px ridge #aca78e;
   color: #736045;
 }
 
@@ -66,6 +60,18 @@ hr {
 
 .App-dark a {
   color: #fff;
+}
+
+.App-classic {
+  background-color: #2306a3;
+  background-image: none;
+  border: 5px ridge #c4c3c4;
+  box-shadow: none;
+  color: #c4c3c4;
+}
+
+.App-classic hr {
+  border-bottom: 1px solid #c4c3c4;
 }
 
 h1,
