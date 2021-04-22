@@ -48,15 +48,17 @@ export default class App extends React.Component {
       this.twitch.onContext((context, delta) => {
         this.contextUpdate(context, delta);
       });
-
-      const configuration = this.twitch.configuration;
-      configuration.onChanged(() => {
-        if (configuration && configuration.broadcaster.content) {
-          const config = JSON.parse(configuration.broadcaster.content);
-          this.fetchCharacterData(config.characterId);
-        }
-      });
     }
+  }
+
+  componentDidUpdate() {
+    const configuration = this.twitch.configuration;
+    configuration.onChanged(() => {
+      if (configuration && configuration.broadcaster.content) {
+        const config = JSON.parse(configuration.broadcaster.content);
+        this.fetchCharacterData(config.characterId);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -100,15 +102,12 @@ export default class App extends React.Component {
         loadingCharacter, error, data, theme
       } = this.state;
       const { Character } = data;
+      const themeClass = (theme === 'light') ? 'App-light' : 'App-dark';
       return (
-        <div className='App'>
-          <div
-            className={theme === 'light' ? 'App-light' : 'App-dark'}
-          >
-            { loadingCharacter && <div className='message'>Loading...</div> }
-            { error && <div className='message'>Character not found</div> }
-            { Character && <CharacterSheet Character={Character} /> }
-          </div>
+        <div className={`App ${themeClass}`}>
+          { loadingCharacter && <div className='message'>Loading...</div> }
+          { error && <div className='message'>Character not found</div> }
+          { Character && <CharacterSheet Character={Character} /> }
         </div>
       );
     }
