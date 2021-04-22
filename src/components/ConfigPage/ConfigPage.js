@@ -49,7 +49,9 @@ export default class ConfigPage extends React.Component {
     config.onChanged(() => {
       if (config.broadcaster && config.broadcaster.content) {
         const { characterId } = JSON.parse(this.twitch.configuration.broadcaster.content);
-        this.setState(() => ({ characterId }));
+        if (characterId) {
+          this.fetchCharacterData(characterId);
+        }
       }
     });
   }
@@ -87,7 +89,7 @@ export default class ConfigPage extends React.Component {
             type: 'error',
             message: 'Could not find character. Please make sure you entered the correct ID or URL.'
           }
-          : { type: 'success', message: 'Character profile found!' };
+          : undefined;
 
         this.setState(() => ({
           message,
