@@ -1,4 +1,12 @@
-# v1.0.0 - Initial release
+# Changelog
+
+## v1.0.1 - Bugfix for ConfigPage
+
+- Bugfix: ConfigPage getting stuck on a Loading state
+  - Moves loading of configuration from `componentDidMount` to `componentDidUpdate` to keep from getting stuck on a loading state
+- Cleanup: Removes console.log from CharacterSheet.js
+
+## v1.0.0 - Initial release
 
 - App view
   - Loads Character ID from configuration service and fetch data on load
