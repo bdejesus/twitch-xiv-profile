@@ -41,15 +41,17 @@ export default class ConfigPage extends React.Component {
       this.twitch.onContext((context, delta) => {
         this.contextUpdate(context, delta);
       });
-
-      const configuration = this.twitch.configuration;
-      configuration.onChanged(() => {
-        if (configuration.broadcaster.content) {
-          const { characterId } = JSON.parse(configuration.broadcaster.content);
-          this.setState(() => ({ characterId }));
-        }
-      });
     }
+  }
+
+  componentDidUpdate() {
+    const config = this.twitch.configuration;
+    config.onChanged(() => {
+      if (config.broadcaster && config.broadcaster.content) {
+        const { characterId } = JSON.parse(this.twitch.configuration.broadcaster.content);
+        this.setState(() => ({ characterId }));
+      }
+    });
   }
 
   contextUpdate(context, delta) {

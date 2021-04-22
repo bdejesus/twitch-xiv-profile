@@ -22,8 +22,6 @@ function CharacterSheet({ Character }) {
     GearSet
   } = Character;
 
-  console.log(Character);
-
   const gearSlots = [
     'MainHand',
     'OffHand',
