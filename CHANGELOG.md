@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.1.0 - Theme Selection
+
+- Adds selections for Light, Dark, and Classic themes
+- Loads character preview if `characterId` is set
+- Updates packages to most recent versions
+
 ## v1.0.1 - Bugfix for ConfigPage
 
 - Bugfix: ConfigPage getting stuck on a Loading state

@@ -102,9 +102,6 @@ export default class App extends React.Component {
           { loadingCharacter && <div className='message'>Loading...</div> }
           { error && <div className='message'>Character not found</div> }
           { Character && <CharacterSheet Character={Character} /> }
-          { !error && !loadingCharacter && !Character && (
-            <div className='message'>No Character Profile</div>
-          )}
         </div>
       );
     }

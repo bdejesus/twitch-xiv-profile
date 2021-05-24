@@ -34,7 +34,7 @@ View Recent changes in the [Changelog](/CHANGELOG.md).
 
       > ![01](./public/images/onboarding-07.jpg)
 
-   2. Clicking on the **SAVE** button will fetch the Character Profile and confirm that it was able to find your character. You can now close this window and active the panel. Make sure to set it to an active panel to display your Final Fantasy XIV profile on your stream page.
+   2. Clicking on the **LOAD PROFILE** button will fetch the Character Profile and confirm that it was able to find your character. You can now close this window and active the panel. Make sure to set it to an active panel to display your Final Fantasy XIV profile on your stream page.
 
       > ![01](./public/images/onboarding-08.jpg)
 
