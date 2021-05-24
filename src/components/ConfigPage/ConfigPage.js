@@ -6,7 +6,9 @@ import OtherTools from './OtherTools';
 import Contribute from './Contribute';
 import SystemMessage from './SystemMessage';
 import ProfilePreview from './ProfilePreview';
+import '../App/Themes.css';
 import './Config.css';
+import './ThemeSelect.css';
 
 export default class ConfigPage extends React.Component {
   constructor(props) {
@@ -19,10 +21,16 @@ export default class ConfigPage extends React.Component {
       finishedLoading: false,
       theme: 'light',
       message: undefined,
-      characterId: undefined
+      inputValue: '',
+      appConfig: {
+        characterId: undefined,
+        panelTheme: undefined
+      }
     };
     this.textInput = createRef();
     this.saveSettings = this.saveSettings.bind(this);
+    this.themeSelect = createRef();
+    this.selectTheme = this.selectTheme.bind(this);
   }
 
   componentDidMount() {
@@ -46,20 +54,31 @@ export default class ConfigPage extends React.Component {
 
   componentDidUpdate() {
     const config = this.twitch.configuration;
+
     config.onChanged(() => {
-      if (config.broadcaster && config.broadcaster.content) {
-        const { characterId } = JSON.parse(this.twitch.configuration.broadcaster.content);
-        if (characterId) {
+      if (typeof config.broadcaster.content !== 'undefined') {
+        const { appConfig } = JSON.parse(
+          this.twitch.configuration.broadcaster.content
+        );
+
+        if (typeof appConfig.characterId !== 'undefined') {
+          const { characterId } = appConfig;
+          this.setState({ inputValue: characterId, appConfig });
           this.fetchCharacterData(characterId);
         }
       }
     });
   }
 
-  contextUpdate(context, delta) {
-    if (delta.includes('theme')) {
-      this.setState(() => ({ theme: context.theme }));
-    }
+  selectTheme(e) {
+    const panelTheme = e.target.value;
+    this.setState((state) => {
+      const appConfig = { ...state.appConfig, panelTheme };
+      this.twitch.configuration.set(
+        'broadcaster', '2', JSON.stringify({ appConfig })
+      );
+      return { ...state, appConfig };
+    });
   }
 
   saveSettings() {
@@ -80,6 +99,12 @@ export default class ConfigPage extends React.Component {
     }
   }
 
+  contextUpdate(context, delta) {
+    if (delta.includes('theme')) {
+      this.setState(() => ({ theme: context.theme }));
+    }
+  }
+
   fetchCharacterData(characterId) {
     fetch(`https://xivapi.com/character/${characterId}?extended=1`)
       .then((results) => results.json())
@@ -91,14 +116,18 @@ export default class ConfigPage extends React.Component {
           }
           : undefined;
 
-        this.setState(() => ({
-          message,
-          characterId,
-          data: data.Character
-        }));
-        this.twitch.configuration.set(
-          'broadcaster', '2', JSON.stringify({ characterId })
-        );
+        this.setState((state) => {
+          const appConfig = { ...state.appConfig, characterId };
+          this.twitch.configuration.set(
+            'broadcaster', '2', JSON.stringify({ appConfig })
+          );
+
+          return {
+            message,
+            appConfig,
+            data: data.Character
+          };
+        });
       })
       .catch((error) => {
         console.error(error);
@@ -110,25 +139,28 @@ export default class ConfigPage extends React.Component {
       });
   }
 
+  updateInputValue(inputValue) {
+    this.setState(() => ({ inputValue }));
+  }
+
   render() {
+    const {
+      data, theme, appConfig, message, inputValue
+    } = this.state;
+    const themeClass = `App-${appConfig.panelTheme || theme}`;
+
     if (this.state.finishedLoading && this.Authentication.isModerator()) {
       return (
-        <div className='Config'>
-          <div className={
-              this.state.theme === 'light' ? 'Config-light' : 'Config-dark'
-            }
-          >
+        <div className={`Config App ${themeClass}`}>
+          <div className='content'>
             <h1>Eorzea Profile Panel Configuration</h1>
 
-            { this.state.message && (
-              <SystemMessage message={this.state.message} />
-            )}
-
-            { this.state.data && (
+            { data && (
               <ProfilePreview
-                avatar={this.state.data.Avatar}
-                name={this.state.data.Name}
-                classJob={this.state.data.ActiveClassJob}
+                avatar={data.Avatar}
+                name={data.Name}
+                classJob={data.ActiveClassJob}
+                theme={themeClass}
               />
             )}
 
@@ -136,39 +168,89 @@ export default class ConfigPage extends React.Component {
               <span className='label-text'>
                 Your Character ID or Lodestone Character Profile URL:
               </span>
-              <br />
-              <input
-                type='text'
-                name='characterId'
-                className='form-control'
-                ref={this.textInput}
-                data-state={this.state.message ? this.state.message.type : null}
-                placeholder={this.state.characterId}
-              />
+
+              <div className='fieldset'>
+                <input
+                  type='text'
+                  name='characterId'
+                  className='form-control'
+                  ref={this.textInput}
+                  data-state={message ? message.type : null}
+                  value={inputValue}
+                  onChange={({ currentTarget }) => {
+                    this.updateInputValue(currentTarget.value);
+                  }}
+                />
+
+                <button
+                  type='button'
+                  className='save-button'
+                  onClick={this.saveSettings}
+                  disabled={message && message.type === 'loading'}
+                  data-state={message ? message.type : null}
+                >
+                  Load Profile
+                </button>
+              </div>
             </label>
+
+            { message && <SystemMessage message={message} /> }
 
             <p className='guide'>
               <a target='_blank' href='https://na.finalfantasyxiv.com/lodestone/' rel='noreferrer'>Visit the Final Fantasy Lodestone website</a> and log in with your account to access your character profile.
             </p>
 
-            <button
-              type='button'
-              className='save-button'
-              onClick={this.saveSettings}
-              disabled={
-                this.state.message && this.state.message.type === 'loading'
-              }
-              data-state={this.state.message ? this.state.message.type : null}
+            <fieldset
+              className='theme-select'
+              onChange={this.selectTheme}
+              ref={this.themeSelect}
             >
-              Save
-            </button>
+              <span className='label-text'>
+                Theme
+              </span>
+
+              <ul className='theme-options'>
+                <li>
+                  <label className='App-dark'>
+                    <input
+                      type='radio'
+                      name='panelTheme'
+                      value='dark'
+                      defaultChecked={appConfig.panelTheme === 'dark'}
+                    />
+                    <span className='label-text'>Dark</span>
+                  </label>
+                </li>
+
+                <li>
+                  <label className='App-light'>
+                    <input
+                      type='radio'
+                      name='panelTheme'
+                      value='light'
+                      defaultChecked={appConfig.panelTheme === 'light'}
+                    />
+                    <span className='label-text'>Light</span>
+                  </label>
+                </li>
+
+                <li>
+                  <label className='App-classic'>
+                    <input
+                      type='radio'
+                      name='panelTheme'
+                      value='classic'
+                      defaultChecked={appConfig.panelTheme === 'classic'}
+                    />
+                    <span className='label-text'>Classic</span>
+                  </label>
+                </li>
+              </ul>
+            </fieldset>
 
             <hr />
-
             <OtherTools />
-
             <hr />
-
             <Contribute />
           </div>
         </div>
@@ -176,8 +258,8 @@ export default class ConfigPage extends React.Component {
     }
 
     return (
-      <div className='Config'>
-        <div className={this.state.theme === 'light' ? 'Config-light' : 'Config-dark'}>
+      <div className={`Config App ${themeClass}`}>
+        <div>
           Loading...
         </div>
       </div>

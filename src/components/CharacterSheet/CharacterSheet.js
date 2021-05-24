@@ -90,6 +90,7 @@ function CharacterSheet({ Character }) {
 
 CharacterSheet.propTypes = {
   Character: PropTypes.shape({
+    Avatar: PropTypes.string,
     Name: PropTypes.string,
     Title: PropTypes.shape(),
     TitleTop: PropTypes.bool,
