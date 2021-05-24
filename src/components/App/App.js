@@ -5,6 +5,7 @@ import Authentication from '../../util/Authentication/Authentication';
 import CharacterSheet from '../CharacterSheet/CharacterSheet';
 
 import './App.css';
+import './Themes.css';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ export default class App extends React.Component {
       isVisible: true,
       data: {},
       loadingCharacter: false,
-      error: null
+      error: null,
+      appConfig: undefined
     };
   }
 
@@ -35,12 +37,7 @@ export default class App extends React.Component {
         }
       });
 
-      this.twitch.listen('broadcast', (target, contentType, body) => {
-        this.twitch.rig.log(`New PubSub message!\n${target}\n${contentType}\n${body}`);
-        // now that you've got a listener, do something with the result...
-        // do something...
-      });
-
+      // eslint-disable-next-line no-unused-vars
       this.twitch.onVisibilityChanged((isVisible, _c) => {
         this.visibilityChanged(isVisible);
       });
@@ -52,25 +49,18 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate() {
-    const configuration = this.twitch.configuration;
-    configuration.onChanged(() => {
-      if (configuration && configuration.broadcaster.content) {
-        const config = JSON.parse(configuration.broadcaster.content);
-        this.fetchCharacterData(config.characterId);
+    const config = this.twitch.configuration;
+    config.onChanged(() => {
+      if (config && config.broadcaster.content) {
+        const { appConfig } = JSON.parse(config.broadcaster.content);
+        this.setState(() => ({ appConfig }));
+        this.fetchCharacterData(appConfig.characterId);
       }
     });
   }
 
-  componentWillUnmount() {
-    if (this.twitch) {
-      this.twitch.unlisten('broadcast', () => console.log('successfully unlistened'));
-    }
-  }
-
   visibilityChanged(isVisible) {
-    this.setState(() => ({
-      isVisible
-    }));
+    this.setState(() => ({ isVisible }));
   }
 
   contextUpdate(context, delta) {
@@ -99,15 +89,22 @@ export default class App extends React.Component {
   render() {
     if (this.state.finishedLoading && this.state.isVisible) {
       const {
-        loadingCharacter, error, data, theme
+        loadingCharacter, error, data, theme, appConfig
       } = this.state;
+
       const { Character } = data;
-      const themeClass = (theme === 'light') ? 'App-light' : 'App-dark';
+      const themeClass = (typeof appConfig !== 'undefined')
+        ? `App-${appConfig.panelTheme}`
+        : `App-${theme}`;
+
       return (
         <div className={`App ${themeClass}`}>
           { loadingCharacter && <div className='message'>Loading...</div> }
           { error && <div className='message'>Character not found</div> }
           { Character && <CharacterSheet Character={Character} /> }
+          { !error && !loadingCharacter && !Character && (
+            <div className='message'>No Character Profile</div>
+          )}
         </div>
       );
     }

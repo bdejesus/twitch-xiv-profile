@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './ProfilePreview.css';
 
-function ProfilePreview({ avatar, name, classJob }) {
+function ProfilePreview({
+  avatar, name, classJob, theme
+}) {
   return (
-    <div className='profile-preview'>
+    <div className={`profile-preview App ${theme}`}>
       <div className='profile-avatar'>
         <img src={avatar} alt={name} />
       </div>
@@ -26,7 +28,8 @@ ProfilePreview.propTypes = {
     UnlockedState: PropTypes.shape({
       Name: PropTypes.string
     })
-  }).isRequired
+  }).isRequired,
+  theme: PropTypes.string.isRequired
 };
 
 export default ProfilePreview;
