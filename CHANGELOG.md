@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.1 - Dependency Updates
+- Bumps dependency versions
+- Adds .node-version file
+
 ## v1.1.0 - Theme Selection
 
 - Adds selections for Light, Dark, and Classic themes
