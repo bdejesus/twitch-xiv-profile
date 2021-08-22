@@ -56,7 +56,10 @@ export default class ConfigPage extends React.Component {
     const config = this.twitch.configuration;
 
     config.onChanged(() => {
-      if (typeof config.broadcaster.content !== 'undefined') {
+      if (config
+        && typeof config.broadcaster !== 'undefined'
+        && typeof this.twitch.configuration.broadcaster.content !== 'undefined'
+      ) {
         const { appConfig } = JSON.parse(
           this.twitch.configuration.broadcaster.content
         );
