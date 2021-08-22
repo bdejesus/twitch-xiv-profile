@@ -1,5 +1,8 @@
 # Changelog
 
+## v1.1.2 - Hotfix Release
+- Fixes an undefined config object preventing the Config panel from loading.
+
 ## v1.1.1 - Dependency Updates
 - Bumps dependency versions
 - Adds .node-version file
