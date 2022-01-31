@@ -42,4 +42,4 @@ View Recent changes in the [Changelog](/CHANGELOG.md).
 
 ### Request a Feature or Report an Issue or Bug
 
-Please create an issue in the [Issues section](https://github.com/bdejesus/twitch-xiv-profile/issues)
+Please create an issue in the [Issues section](https://github.com/bdejesus/twitch-xiv-profile/issues/new/choose)

@@ -12,7 +12,7 @@ function Contribute() {
         GitHub Project
       </a>
       &nbsp;•&nbsp;
-      <a href='https://github.com/bdejesus/twitch-xiv-profile' target='_blank' rel='noreferrer'>
+      <a href='https://github.com/bdejesus/twitch-xiv-profile/issues/new/choose' target='_blank' rel='noreferrer'>
         Report an Issue or Request a Feature
       </a>
       &nbsp; |&nbsp;
