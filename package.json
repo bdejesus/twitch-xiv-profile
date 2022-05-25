@@ -19,7 +19,7 @@
     "core-js": "^3.10.1",
     "html-webpack-plugin": "^4.5.2",
     "jsonwebtoken": "^8.5.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
