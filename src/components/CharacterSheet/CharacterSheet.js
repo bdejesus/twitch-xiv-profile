@@ -8,33 +8,25 @@ import './CharacterSheet.css';
 function CharacterSheet({ Character }) {
   const [activeItem, setActiveItem] = useState();
   const {
-    Avatar,
-    Name,
-    Title,
-    TitleTop,
-    Town,
-    Server,
-    DC,
-    FreeCompanyName,
-    Bio,
-    ActiveClassJob,
-    Portrait,
-    GearSet
+    profile,
+    details,
+    activeClassJob,
+    gearSlots
   } = Character;
 
-  const gearSlots = [
-    'MainHand',
-    'OffHand',
-    'Head',
-    'Earrings',
-    'Body',
-    'Necklace',
-    'Hands',
-    'Bracelets',
-    'Legs',
-    'Ring1',
-    'Feet',
-    'Ring2'
+  const gearSlotKeys = [
+    'mainhand',
+    'offhand',
+    'head',
+    'earrings',
+    'body',
+    'necklace',
+    'hands',
+    'bracelets',
+    'legs',
+    'ring1',
+    'feet',
+    'ring2'
   ];
 
   function handleActivate(e) {
@@ -44,26 +36,24 @@ function CharacterSheet({ Character }) {
   return (
     <div className='character-sheet'>
       <NamePlate
-        avatar={Avatar}
-        name={Name}
-        title={Title.Name}
-        titleTop={TitleTop}
-        town={Town.Name}
-        server={Server}
-        datacenter={DC}
-        freeCompany={FreeCompanyName}
+        avatar={profile.image}
+        name={profile.name}
+        title={profile.title}
+        titleTop={profile.titleTop}
+        freeCompany={details.freeCompany}
       />
 
       <hr />
 
       <div className='activeClassJob'>
-        Level {ActiveClassJob.Level} {ActiveClassJob.UnlockedState.Name}
+        <img src={activeClassJob.icon} alt='' />
+        Level {activeClassJob.level}
       </div>
 
       <div className='equipment'>
         <div className='portrait'>
           <img
-            src={Portrait}
+            src={gearSlots.image}
             alt='Portrait'
             className='portrait-img'
           />
@@ -73,35 +63,43 @@ function CharacterSheet({ Character }) {
           )}
         </div>
 
-        {gearSlots.map((slot) => (
+        {gearSlotKeys.map((slot) => (
           <GearSlot
             key={slot}
-            Gear={GearSet.Gear[slot]}
+            Gear={gearSlots[slot]}
             onActive={handleActivate}
           />
         ))}
       </div>
-
-      { Bio && <div className='bio'>{Bio}</div> }
-
     </div>
   );
 }
 
 CharacterSheet.propTypes = {
   Character: PropTypes.shape({
-    Avatar: PropTypes.string,
-    Name: PropTypes.string,
-    Title: PropTypes.shape(),
-    TitleTop: PropTypes.bool,
-    Town: PropTypes.shape(),
-    Server: PropTypes.string,
-    DC: PropTypes.string,
-    FreeCompanyName: PropTypes.string,
-    Bio: PropTypes.string,
-    ActiveClassJob: PropTypes.shape(),
-    Portrait: PropTypes.string,
-    GearSet: PropTypes.shape()
+    profile: {
+      image: PropTypes.string,
+      name: PropTypes.string,
+      title: PropTypes.string,
+      world: PropTypes.string
+    },
+    details: {
+      race: PropTypes.string,
+      clan: PropTypes.string,
+      gender: PropTypes.string,
+      nameday: PropTypes.string,
+      guardian: PropTypes.string,
+      cityState: PropTypes.string,
+      grandCompanyName: PropTypes.string,
+      grandCompanyRank: PropTypes.string,
+      freeCompany: PropTypes.string
+    },
+    activeClassJob: {
+      level: PropTypes.number,
+      icon: PropTypes.string,
+      textImage: PropTypes.string
+    },
+    gearSlots: PropTypes.shape()
   }).isRequired
 };
 

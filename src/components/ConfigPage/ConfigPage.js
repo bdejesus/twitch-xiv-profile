@@ -109,10 +109,13 @@ export default class ConfigPage extends React.Component {
   }
 
   fetchCharacterData(characterId) {
-    fetch(`https://xivapi.com/character/${characterId}?extended=1`)
+    const baseURL = 'https://xivbars.bejezus.com/api/character';
+    const characterURL = `${baseURL}/${characterId}`;
+
+    fetch(characterURL)
       .then((results) => results.json())
       .then((data) => {
-        const message = data.Error
+        const message = data.status === 404
           ? {
             type: 'error',
             message: 'Could not find character. Please make sure you entered the correct ID or URL.'
@@ -128,12 +131,12 @@ export default class ConfigPage extends React.Component {
           return {
             message,
             appConfig,
-            data: data.Character
+            data: data.character
           };
         });
       })
       .catch((error) => {
-        console.error(error);
+        console.error('>>', error);
         this.twitch.rig.log(error);
         this.setState(() => ({
           message: { type: 'error', message: 'Could not fetch character' },
@@ -158,11 +161,15 @@ export default class ConfigPage extends React.Component {
           <div className='content'>
             <h1>Eorzea Profile Panel Configuration</h1>
 
+            { console.log(data) }
+
             { data && (
               <ProfilePreview
-                avatar={data.Avatar}
-                name={data.Name}
-                classJob={data.ActiveClassJob}
+                avatar={data.profile.image}
+                name={data.profile.name}
+                classJobIcon={data.activeClassJob.icon}
+                classJobText={data.activeClassJob.textImage}
+                level={data.activeClassJob.level}
                 theme={themeClass}
               />
             )}

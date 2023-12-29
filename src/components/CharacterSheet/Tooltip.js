@@ -3,31 +3,31 @@ import PropTypes from 'prop-types';
 import './Tooltip.css';
 
 function Tooltip({ activeItem }) {
-  const { Item, Mirage } = activeItem;
+  const { name, image, glamour } = activeItem;
 
   return (
     <div className='item-tooltip'>
       <div className='equipped-item'>
         <div className='icon'>
-          <img src={`https://xivapi.com/${Item.Icon}`} alt={`[${Item.Name}]`} />
+          <img src={image} alt={name} />
         </div>
         <div className='item-desc'>
-          <h3>{Item.Name}</h3>
+          <h3>{name}</h3>
         </div>
       </div>
 
-      { Mirage && (
+      { glamour && (
         <div className='glamour'>
           <h4>Glamour</h4>
           <div className='glamour-item'>
             <div className='icon'>
               <img
-                src={`https://xivapi.com/${Mirage.Icon}`}
-                alt={`[${Mirage.Name}]`}
+                src={glamour.image}
+                alt={glamour.name}
               />
             </div>
             <div className='item-desc'>
-              <div className='glamour-name'>{Mirage.Name}</div>
+              <div className='glamour-name'>{glamour.name}</div>
             </div>
           </div>
         </div>

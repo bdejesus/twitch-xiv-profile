@@ -72,10 +72,13 @@ export default class App extends React.Component {
   fetchCharacterData(id) {
     this.setState(() => ({ loadingCharacter: true, error: null }));
 
-    fetch(`https://xivapi.com/character/${id}?extended=1`)
+    const baseURL = 'https://xivbars.bejezus.com/api/character';
+    const characterURL = `${baseURL}/${id}`;
+
+    fetch(characterURL)
       .then((results) => results.json())
       .then((data) => {
-        this.setState(() => ({ data, loadingCharacter: false }));
+        this.setState(() => ({ data: data.character, loadingCharacter: false }));
       })
       .catch((error) => {
         this.setState(() => ({
@@ -92,8 +95,7 @@ export default class App extends React.Component {
         loadingCharacter, error, data, theme, appConfig
       } = this.state;
 
-      const { Character } = data;
-      const themeClass = (typeof appConfig !== 'undefined')
+      const themeClass = (typeof appConfig.toString() !== 'undefined')
         ? `App-${appConfig.panelTheme}`
         : `App-${theme}`;
 
@@ -101,7 +103,7 @@ export default class App extends React.Component {
         <div className={`App ${themeClass}`}>
           { loadingCharacter && <div className='message'>Loading...</div> }
           { error && <div className='message'>Character not found</div> }
-          { Character && <CharacterSheet Character={Character} /> }
+          { data.profile && <CharacterSheet Character={data} /> }
         </div>
       );
     }

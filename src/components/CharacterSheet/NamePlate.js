@@ -7,9 +7,6 @@ function NamePlate({
   name,
   title,
   titleTop,
-  town,
-  server,
-  datacenter,
   freeCompany
 }) {
   return (
@@ -21,11 +18,8 @@ function NamePlate({
       <div className='name-body'>
         { titleTop && title && <h2 className='title'>{title}</h2> }
         <h1>{name}</h1>
-        { !titleTop && title && <h2 className='title'>{title}</h2> }
-        { freeCompany && (
-          <div className='freeCompany'>&lt;{freeCompany}&gt;</div>
-        )}
-        <div className='address'>{town}, {server}, {datacenter}</div>
+        { title && <h2 className='title'>{title}</h2> }
+        { freeCompany && <h3 className='freeCompany'>&lt;{freeCompany}&gt;</h3> }
       </div>
     </div>
   );
@@ -36,9 +30,6 @@ NamePlate.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string,
   titleTop: PropTypes.bool,
-  town: PropTypes.string.isRequired,
-  server: PropTypes.string.isRequired,
-  datacenter: PropTypes.string.isRequired,
   freeCompany: PropTypes.string
 };
 

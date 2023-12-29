@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './ProfilePreview.css';
 
 function ProfilePreview({
-  avatar, name, classJob, theme
+  avatar, name, classJobIcon, classJobText, theme, level
 }) {
   return (
     <div className={`profile-preview App ${theme}`}>
@@ -12,8 +12,12 @@ function ProfilePreview({
       </div>
       <div className='profile-body'>
         <h3>{name}</h3>
-        <div>
-          Level {classJob.Level} {classJob.UnlockedState.Name}
+        <div className='profile-classjob'>
+          <img className='profile-classjob-icon' src={classJobIcon} alt='' />
+          <img className='profile-classjob-text' src={classJobText} alt='' />
+        </div>
+        <div classNam='profile-level'>
+          Level {level}
         </div>
       </div>
     </div>
@@ -23,13 +27,14 @@ function ProfilePreview({
 ProfilePreview.propTypes = {
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  classJob: PropTypes.shape({
-    Level: PropTypes.number,
-    UnlockedState: PropTypes.shape({
-      Name: PropTypes.string
-    })
-  }).isRequired,
-  theme: PropTypes.string.isRequired
+  classJobIcon: PropTypes.string.isRequired,
+  classJobText: PropTypes.string.isRequired,
+  theme: PropTypes.string.isRequired,
+  level: PropTypes.number.isRequired
+};
+
+ProfilePreview.defaultProps = {
+  classJob: undefined
 };
 
 export default ProfilePreview;

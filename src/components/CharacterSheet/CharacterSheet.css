@@ -6,7 +6,16 @@
   font-size: 14px;
   font-weight: 500;
   margin: 0 0 4px;
-  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.activeClassJob img {
+  height: 24px;
+  width: 24px;
+  margin-right: 4px;
 }
 
 .equipment {

@@ -1,7 +1,7 @@
 .profile-preview {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   background-color: rgba(0, 200, 0, 0.1);
   padding: 10px;
   margin-top: -9px;
@@ -14,6 +14,21 @@
 
 .profile-body h3 {
   margin: 0;
+}
+
+.profile-classjob {
+  display: flex;
+  flex-direction: row;
+}
+
+.profile-classjob-icon {
+  height: 32px;
+  width: 32px;
+  margin-right: 6px;
+}
+
+.profile-classjob-text {
+  height: 30px;
 }
 
 .profile-avatar {

@@ -5,7 +5,8 @@ import './GearSlot.css';
 
 function GearSlot({ Gear, onActive }) {
   if (!Gear) return <div />;
-  const { Name, Icon } = Gear.Item;
+
+  const { name, image } = Gear;
 
   function handleMouseOver() {
     onActive(Gear);
@@ -21,10 +22,7 @@ function GearSlot({ Gear, onActive }) {
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
     >
-      <img
-        alt={Name}
-        src={`https://xivapi.com/${Icon}`}
-      />
+      <img alt={name} src={image} />
     </div>
   );
 }

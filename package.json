@@ -1,6 +1,6 @@
 {
   "name": "twitch-xiv-profile",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "A Final Fantasy XIV Profile Panel Extension",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "build": "webpack --mode production",
     "dist": "npm run build; zip -r ../twitch-xiv-profile.zip dist/*",
     "start": "webpack-dev-server --mode development",
+    "dev": "webpack-dev-server --mode development",
     "cert": "./bin/generate_cert.sh server",
     "host": "webpack-dev-server --mode development --devrig"
   },
@@ -15,9 +16,11 @@
   "author": "Benedicto de Jesus",
   "license": "ISC",
   "dependencies": {
+    "@xivapi/nodestone": "^0.2.6",
     "clean-webpack-plugin": "^1.0.1",
     "core-js": "^3.10.1",
     "html-webpack-plugin": "^4.5.2",
+    "htmlparser2": "^9.0.0",
     "jsonwebtoken": "^8.5.1",
     "node-fetch": "^2.6.7",
     "prop-types": "^15.7.2",
@@ -50,7 +53,7 @@
     "sass-loader": "^7.3.1",
     "style-loader": "^0.21.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^3.11.3"
   },
   "babel": {
     "presets": [
