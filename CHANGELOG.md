@@ -3,6 +3,7 @@
 ## v1.2.0 - Backend Service Update
 - Points configuration to retrieve character data from a new endpoint at xivbars.bejezus.com/api/character/:id
 - Removes XHR requests from the public facing app to reduce number of requests
+- Minor updates to the character data JSON structure
 
 ## v1.1.2 - Hotfix Release
 - Fixes an undefined config object preventing the Config panel from loading.
