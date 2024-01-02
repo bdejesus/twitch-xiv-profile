@@ -13,6 +13,8 @@ function CharacterSheet({ Character }) {
     name,
     title,
     titleTop,
+    world,
+    cityState,
     freeCompany,
     activeClassJob,
     gearSlots
@@ -45,6 +47,8 @@ function CharacterSheet({ Character }) {
         title={title}
         titleTop={titleTop}
         freeCompany={freeCompany}
+        world={world}
+        cityState={cityState}
       />
 
       <hr />

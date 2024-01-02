@@ -7,7 +7,9 @@ function NamePlate({
   name,
   title,
   titleTop,
-  freeCompany
+  freeCompany,
+  world,
+  cityState
 }) {
   return (
     <div className='name-plate'>
@@ -16,10 +18,13 @@ function NamePlate({
       </div>
 
       <div className='name-body'>
-        { titleTop && title && <h2 className='title'>{title}</h2> }
+        { title && titleTop && <h2 className='title'>{title}</h2> }
         <h1>{name}</h1>
-        { title && <h2 className='title'>{title}</h2> }
+        { title && !titleTop && <h2 className='title'>{title}</h2> }
         { freeCompany && <h3 className='freeCompany'>&lt;{freeCompany}&gt;</h3> }
+        { cityState && world && (
+          <div className='address'>{cityState}, {world}</div>
+        )}
       </div>
     </div>
   );
@@ -28,9 +33,11 @@ function NamePlate({
 NamePlate.propTypes = {
   avatar: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  world: PropTypes.string.isRequired,
+  cityState: PropTypes.string.isRequired,
   title: PropTypes.string,
   titleTop: PropTypes.bool,
-  freeCompany: PropTypes.string
+  freeCompany: PropTypes.string,
 };
 
 NamePlate.defaultProps = {
