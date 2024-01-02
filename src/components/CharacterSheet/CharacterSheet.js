@@ -8,8 +8,12 @@ import './CharacterSheet.css';
 function CharacterSheet({ Character }) {
   const [activeItem, setActiveItem] = useState();
   const {
-    profile,
-    details,
+    face,
+    portrait,
+    name,
+    title,
+    titleTop,
+    freeCompany,
     activeClassJob,
     gearSlots
   } = Character;
@@ -36,11 +40,11 @@ function CharacterSheet({ Character }) {
   return (
     <div className='character-sheet'>
       <NamePlate
-        avatar={profile.image}
-        name={profile.name}
-        title={profile.title}
-        titleTop={profile.titleTop}
-        freeCompany={details.freeCompany}
+        avatar={face}
+        name={name}
+        title={title}
+        titleTop={titleTop}
+        freeCompany={freeCompany}
       />
 
       <hr />
@@ -53,7 +57,7 @@ function CharacterSheet({ Character }) {
       <div className='equipment'>
         <div className='portrait'>
           <img
-            src={gearSlots.image}
+            src={portrait}
             alt='Portrait'
             className='portrait-img'
           />
@@ -77,23 +81,20 @@ function CharacterSheet({ Character }) {
 
 CharacterSheet.propTypes = {
   Character: PropTypes.shape({
-    profile: {
-      image: PropTypes.string,
-      name: PropTypes.string,
-      title: PropTypes.string,
-      world: PropTypes.string
-    },
-    details: {
-      race: PropTypes.string,
-      clan: PropTypes.string,
-      gender: PropTypes.string,
-      nameday: PropTypes.string,
-      guardian: PropTypes.string,
-      cityState: PropTypes.string,
-      grandCompanyName: PropTypes.string,
-      grandCompanyRank: PropTypes.string,
-      freeCompany: PropTypes.string
-    },
+    face: PropTypes.string,
+    portrait: PropTypes.string,
+    name: PropTypes.string,
+    title: PropTypes.string,
+    titleTop: PropTypes.bool,
+    world: PropTypes.string,
+    race: PropTypes.string,
+    clan: PropTypes.string,
+    nameday: PropTypes.string,
+    guardian: PropTypes.string,
+    cityState: PropTypes.string,
+    grandCompanyName: PropTypes.string,
+    grandCompanyRank: PropTypes.string,
+    freeCompany: PropTypes.string,
     activeClassJob: {
       level: PropTypes.number,
       icon: PropTypes.string,

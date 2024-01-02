@@ -16,7 +16,7 @@ function ProfilePreview({
           <img className='profile-classjob-icon' src={classJobIcon} alt='' />
           <img className='profile-classjob-text' src={classJobText} alt='' />
         </div>
-        <div classNam='profile-level'>
+        <div className='profile-level'>
           Level {level}
         </div>
       </div>
@@ -31,10 +31,6 @@ ProfilePreview.propTypes = {
   classJobText: PropTypes.string.isRequired,
   theme: PropTypes.string.isRequired,
   level: PropTypes.number.isRequired
-};
-
-ProfilePreview.defaultProps = {
-  classJob: undefined
 };
 
 export default ProfilePreview;
