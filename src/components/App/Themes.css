@@ -9,10 +9,10 @@ hr {
   font-size: 14px;
   line-height: 1.45;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 6px;
   transition-property: color, background, border, box-shadow;
   transition-duration: 0.33s;
-  transition-timiing-function: ease;
+  transition-timing-function: ease;
 }
 
 .App img {
@@ -23,7 +23,7 @@ hr {
 .App-dark {
   background-color: #3b3a3d;
   background-image: linear-gradient(#716d6d 0%, #3b3a3d 20px);
-  border: 5px ridge #aca78e;
+  border: 3px ridge #aca78e;
   box-shadow: inset 1px 1px 1px #4c4644;
   color: #c4c1b2;
 }
@@ -35,7 +35,7 @@ hr {
 .App-light {
   background-color: #f1dfc0;
   background-image: linear-gradient(#fcf9f3 0%, #f1dfc0 20px);
-  border: 5px ridge #aca78e;
+  border: 3px ridge #aca78e;
   color: #736045;
 }
 
@@ -50,7 +50,7 @@ hr {
 .App-classic {
   background-color: #2306a3;
   background-image: none;
-  border: 5px ridge #c4c3c4;
+  border: 3px ridge #c4c3c4;
   box-shadow: none;
   color: #c4c3c4;
 }

@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import React from 'react';
-import fetch from 'node-fetch';
 import Authentication from '../../util/Authentication/Authentication';
 import CharacterSheet from '../CharacterSheet/CharacterSheet';
 
@@ -18,7 +17,6 @@ export default class App extends React.Component {
       finishedLoading: false,
       theme: 'light',
       isVisible: true,
-      data: {},
       loadingCharacter: false,
       error: null,
       appConfig: undefined
@@ -49,12 +47,11 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate() {
-    const config = this.twitch.configuration;
-    config.onChanged(() => {
+    const config = this.twitch?.configuration;
+    config?.onChanged(() => {
       if (config && config.broadcaster.content) {
-        const { appConfig } = JSON.parse(config.broadcaster.content);
-        this.setState(() => ({ appConfig }));
-        this.fetchCharacterData(appConfig.characterId);
+        const content = JSON.parse(config.broadcaster.content);
+        this.setState(() => ({ appConfig: content.appConfig }));
       }
     });
   }
@@ -69,42 +66,21 @@ export default class App extends React.Component {
     }
   }
 
-  fetchCharacterData(id) {
-    this.setState(() => ({ loadingCharacter: true, error: null }));
-
-    fetch(`https://xivapi.com/character/${id}?extended=1`)
-      .then((results) => results.json())
-      .then((data) => {
-        this.setState(() => ({ data, loadingCharacter: false }));
-      })
-      .catch((error) => {
-        this.setState(() => ({
-          loadingCharacter: false,
-          error: "Couldn't load FFXIV Character Profile"
-        }));
-        console.error(error);
-      });
-  }
-
   render() {
     if (this.state.finishedLoading && this.state.isVisible) {
       const {
-        loadingCharacter, error, data, theme, appConfig
+        loadingCharacter, error, theme, appConfig
       } = this.state;
-
-      const { Character } = data;
-      const themeClass = (typeof appConfig !== 'undefined')
-        ? `App-${appConfig.panelTheme}`
-        : `App-${theme}`;
-
+      const themeClass = appConfig ? `App-${appConfig.panelTheme}` : `App-${theme}`;
       return (
         <div className={`App ${themeClass}`}>
           { loadingCharacter && <div className='message'>Loading...</div> }
           { error && <div className='message'>Character not found</div> }
-          { Character && <CharacterSheet Character={Character} /> }
+          { appConfig?.character && <CharacterSheet Character={appConfig.character} /> }
         </div>
       );
     }
+
     return (
       <div className='App' />
     );
