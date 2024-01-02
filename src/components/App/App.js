@@ -47,8 +47,8 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate() {
-    const config = this.twitch.configuration;
-    config.onChanged(() => {
+    const config = this.twitch?.configuration;
+    config?.onChanged(() => {
       if (config && config.broadcaster.content) {
         const content = JSON.parse(config.broadcaster.content);
         this.setState(() => ({ appConfig: content.appConfig }));
