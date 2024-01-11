@@ -80,9 +80,9 @@ input[data-state='error'] {
   font-style: italic;
 }
 
-.save-button {
+.button {
   color: #fff;
-  background-color: #009900;
+  background-color: #666;
   font-size: 16px;
   font-weight: 400;
   display: inline-flex;
@@ -92,13 +92,28 @@ input[data-state='error'] {
   padding: 0 16px;
   line-height: 1.2;
   border-radius: 4px;
-  border: 1px solid #006600;
+  border: 1px solid #111;
   cursor: pointer;
   text-transform: uppercase;
   transition-property: background-color, border;
   transition-duration: 0.15s;
   transition-timing-function: ease;
   white-space: nowrap;
+}
+
+.button[disabled] {
+  pointer-events: none;
+  opacity: 0.66;
+}
+
+.button:hover {
+  background-color: #333;
+}
+
+.save-button {
+  background-color: #009900;
+  border: 1px solid #006600;
+  margin-right: 10px;
 }
 
 .save-button:hover,

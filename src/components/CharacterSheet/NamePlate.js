@@ -11,6 +11,10 @@ function NamePlate({
   world,
   cityState
 }) {
+  function formatName(nameString) {
+    return nameString.replace('&#39;', '’');
+  }
+
   return (
     <div className='name-plate'>
       <div className='avatar'>
@@ -19,7 +23,7 @@ function NamePlate({
 
       <div className='name-body'>
         { title && titleTop && <h2 className='title'>{title}</h2> }
-        <h1>{name}</h1>
+        <h1>{formatName(name)}</h1>
         { title && !titleTop && <h2 className='title'>{title}</h2> }
         { freeCompany && <h3 className='freeCompany'>&lt;{freeCompany}&gt;</h3> }
         { cityState && world && (
