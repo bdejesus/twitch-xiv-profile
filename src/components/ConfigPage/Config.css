@@ -113,6 +113,7 @@ input[data-state='error'] {
 .save-button {
   background-color: #009900;
   border: 1px solid #006600;
+  margin-right: 10px;
 }
 
 .save-button:hover,

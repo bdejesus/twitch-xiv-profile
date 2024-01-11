@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import NamePlate from './NamePlate';
 import GearSlot from './GearSlot';
 import Tooltip from './Tooltip';
@@ -81,5 +82,30 @@ function CharacterSheet({ Character }) {
     </div>
   );
 }
+
+CharacterSheet.propTypes = {
+  Character: PropTypes.shape({
+    face: PropTypes.string,
+    portrait: PropTypes.string,
+    name: PropTypes.string,
+    title: PropTypes.string,
+    titleTop: PropTypes.bool,
+    world: PropTypes.string,
+    race: PropTypes.string,
+    clan: PropTypes.string,
+    nameday: PropTypes.string,
+    guardian: PropTypes.string,
+    cityState: PropTypes.string,
+    grandCompanyName: PropTypes.string,
+    grandCompanyRank: PropTypes.string,
+    freeCompany: PropTypes.string,
+    activeClassJob: {
+      level: PropTypes.number,
+      icon: PropTypes.string,
+      textImage: PropTypes.string
+    },
+    gearSlots: PropTypes.shape()
+  }).isRequired
+};
 
 export default CharacterSheet;
