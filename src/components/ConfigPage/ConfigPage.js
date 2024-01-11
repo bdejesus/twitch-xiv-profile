@@ -44,7 +44,6 @@ export default class ConfigPage extends React.Component {
             ? JSON.parse(this.twitch.configuration?.broadcaster?.content)
             : undefined;
 
-          console.log(this.state.appConfig);
           // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
           this.setState((prevState) => ({
             finishedLoading: true,
