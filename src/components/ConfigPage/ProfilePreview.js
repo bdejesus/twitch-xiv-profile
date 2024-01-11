@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './ProfilePreview.css';
 
+function formatName(nameString) {
+  return nameString.replace('&#39;', '’');
+}
+
 function ProfilePreview({
   avatar, name, classJobIcon, classJobText, theme, level
 }) {
@@ -11,7 +15,7 @@ function ProfilePreview({
         <img src={avatar} alt={name} />
       </div>
       <div className='profile-body'>
-        <h3>{name}</h3>
+        <h3>{formatName(name)}</h3>
         <div className='profile-classjob'>
           <img className='profile-classjob-icon' src={classJobIcon} alt='' />
           <img className='profile-classjob-text' src={classJobText} alt='' />

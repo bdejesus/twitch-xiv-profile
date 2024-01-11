@@ -87,7 +87,7 @@ module.exports = {
     'react/no-array-index-key': 'off',
     'react/no-unused-prop-types': 'warn',
     'react/no-unused-state': 'warn',
-    'react/prop-types': 'warn',
+    'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
     quotes: 'warn',
   },

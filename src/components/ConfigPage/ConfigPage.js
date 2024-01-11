@@ -18,18 +18,16 @@ export default class ConfigPage extends React.Component {
     // if the extension is running on twitch or dev rig, set the shorthand here. otherwise, set to null.
     this.twitch = window.Twitch ? window.Twitch.ext : null;
     this.textInput = createRef();
-    this.saveSettings = this.saveSettings.bind(this);
     this.themeSelect = createRef();
+    this.loadProfile = this.loadProfile.bind(this);
+    this.unloadProfile = this.unloadProfile.bind(this);
     this.selectTheme = this.selectTheme.bind(this);
     this.state = {
       finishedLoading: false,
-      theme: 'light',
       message: undefined,
-      inputValue: undefined,
       appConfig: {
-        characterId: undefined,
         character: undefined,
-        panelTheme: undefined
+        panelTheme: 'dark'
       }
     };
   }
@@ -41,18 +39,13 @@ export default class ConfigPage extends React.Component {
         this.Authentication.setToken(auth.token, auth.userId);
         if (!this.state.finishedLoading) {
           // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
+
           const configuration = JSON.parse(this.twitch.configuration.broadcaster.content);
-
-          // this.twitch.configuration.set('broadcaster', '3', JSON.stringify({
-          //   appConfig: {
-          //     characterId: undefined,
-          //     character: undefined,
-          //     panelTheme: undefined
-          //   }
-          // }));
-
           // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
-          this.setState(() => ({ finishedLoading: true, appConfig: configuration.appConfig }));
+          this.setState((prevState) => ({
+            finishedLoading: true,
+            appConfig: configuration?.appConfig || prevState.appConfig
+          }));
         }
       });
 
@@ -64,27 +57,16 @@ export default class ConfigPage extends React.Component {
 
   componentDidUpdate() {
     const config = this.twitch.configuration;
-
-    config.onChanged(() => {
-      if (config && !!config.broadcaster && !!config.broadcaster.content) {
-        const content = JSON.parse(this.twitch.configuration.broadcaster.content);
-        if (content.appConfig?.characterId) {
-          this.setState({ inputValue: content.appConfig.characterId, appConfig: content.appConfig });
-          this.fetchCharacterData(content.appConfig.characterId);
-        }
-      }
-    });
+    const appConfig = { ...config.appConfig, ...this.state.appConfig };
+    this.twitch.configuration.set('broadcaster', '3', JSON.stringify({ appConfig }));
   }
 
   selectTheme(e) {
     const panelTheme = e.target.value;
-    this.setState((state) => ({
-      ...state,
-      appConfig: { ...state.appConfig, panelTheme }
-    }));
+    this.setState((prevState) => ({ ...prevState, appConfig: { ...prevState.appConfig, panelTheme } }));
   }
 
-  saveSettings() {
+  loadProfile() {
     const textInputValue = this.textInput.current.value;
     const characterId = textInputValue.split('/')
       .filter((i) => (i && i.match(/^\d*$/)))[0];
@@ -113,37 +95,39 @@ export default class ConfigPage extends React.Component {
       .then((results) => results.json())
       .then((data) => {
         const message = (!data.character) ? { type: 'error', message: 'Character not found' } : null;
-        this.setState((state) => {
-          const appConfig = { ...state.appConfig, character: data.character };
-          this.twitch.configuration.set('broadcaster', '3', JSON.stringify({ appConfig }));
-          return { appConfig, message };
-        });
+
+        if (message) {
+          this.setState({ message });
+        } else {
+          this.setState((state) => {
+            const appConfig = { ...state.appConfig, character: data.character };
+            return { appConfig, message };
+          });
+        }
       })
-      .catch(() => {
-        this.setState(() => ({
-          message: { type: 'error', message: 'Could not fetch character' },
-          data: null
-        }));
-      });
+      .catch(() => this.setState({ message: { type: 'error', message: 'Could not fetch character' } }));
   }
 
-  updateInputValue(inputValue) {
-    this.setState(() => ({ inputValue }));
+  unloadProfile() {
+    this.setState((prevState) => {
+      this.textInput.current.value = '';
+      const updatedConfig = { ...prevState.appConfig, character: undefined };
+      return { ...prevState, appConfig: updatedConfig };
+    });
   }
 
   render() {
     const {
       theme, appConfig, message
     } = this.state;
-    const themeClass = `App-${appConfig.panelTheme || theme}`;
+    const themeClass = `App-${appConfig?.panelTheme || theme}`;
 
-    if (this.state.finishedLoading && this.Authentication.isModerator()) {
+    if (this.state.finishedLoading) {
       return (
         <div className={`Config App ${themeClass}`}>
           <div className='content'>
             <h1>Eorzea Profile Panel Configuration</h1>
-
-            { appConfig.character && (
+            { appConfig?.character && (
               <ProfilePreview
                 avatar={appConfig.character.face}
                 name={appConfig.character.name}
@@ -167,19 +151,24 @@ export default class ConfigPage extends React.Component {
                   ref={this.textInput}
                   data-state={message ? message.type : null}
                   defaultValue={appConfig?.character?.id}
-                  onChange={({ currentTarget }) => {
-                    this.updateInputValue(currentTarget.value);
-                  }}
                 />
 
                 <button
                   type='button'
-                  className='save-button'
-                  onClick={this.saveSettings}
-                  disabled={message && message.type === 'loading'}
+                  className='button save-button'
+                  onClick={this.loadProfile}
+                  disabled={message?.type === 'loading'}
                   data-state={message ? message.type : null}
                 >
                   Load Profile
+                </button>
+
+                <button
+                  type='button'
+                  className='button'
+                  onClick={this.unloadProfile}
+                >
+                  Reset
                 </button>
               </div>
             </label>
@@ -190,6 +179,7 @@ export default class ConfigPage extends React.Component {
               <a target='_blank' href='https://na.finalfantasyxiv.com/lodestone/' rel='noreferrer'>Visit the Final Fantasy Lodestone website</a> and log in with your account to access your character profile.
             </p>
 
+            { /* Theme Select  */ }
             <fieldset
               className='theme-select'
               onChange={this.selectTheme}
@@ -206,7 +196,7 @@ export default class ConfigPage extends React.Component {
                       type='radio'
                       name='panelTheme'
                       value='dark'
-                      defaultChecked={appConfig.panelTheme === 'dark'}
+                      defaultChecked={appConfig.panelTheme === 'dark' || !appConfig.panelTheme}
                     />
                     <span className='label-text'>Dark</span>
                   </label>
@@ -238,6 +228,7 @@ export default class ConfigPage extends React.Component {
               </ul>
             </fieldset>
 
+            { /* Footer Items */ }
             <hr />
             <OtherTools />
             <hr />

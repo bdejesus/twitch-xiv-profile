@@ -24,6 +24,8 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    console.log('mount', this.state);
+
     if (this.twitch) {
       this.twitch.onAuthorized((auth) => {
         this.Authentication.setToken(auth.token, auth.userId);
@@ -47,6 +49,8 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log('update', this.state);
+
     const config = this.twitch?.configuration;
     config?.onChanged(() => {
       if (config && config.broadcaster.content) {
@@ -67,6 +71,8 @@ export default class App extends React.Component {
   }
 
   render() {
+    console.log('render', this.state);
+
     if (this.state.finishedLoading && this.state.isVisible) {
       const {
         loadingCharacter, error, theme, appConfig

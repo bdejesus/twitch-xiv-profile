@@ -43,6 +43,7 @@ export default class LiveConfigPage extends React.Component {
 
   componentWillUnmount() {
     if (this.twitch) {
+      // eslint-disable-next-line no-console
       this.twitch.unlisten('broadcast', () => console.log('successfully unlistened'));
     }
   }
