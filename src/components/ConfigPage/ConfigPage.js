@@ -42,16 +42,17 @@ export default class ConfigPage extends React.Component {
         if (!this.state.finishedLoading) {
           // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
           const configuration = JSON.parse(this.twitch.configuration.broadcaster.content);
-          this.twitch.configuration.set('broadcaster', '3', JSON.stringify({
-            appConfig: {
-              characterId: undefined,
-              character: undefined,
-              panelTheme: undefined
-            }
-          }));
+
+          // this.twitch.configuration.set('broadcaster', '3', JSON.stringify({
+          //   appConfig: {
+          //     characterId: undefined,
+          //     character: undefined,
+          //     panelTheme: undefined
+          //   }
+          // }));
 
           // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
-          this.setState(() => ({ finishedLoading: true }));
+          this.setState(() => ({ finishedLoading: true, appConfig: configuration.appConfig }));
         }
       });
 
