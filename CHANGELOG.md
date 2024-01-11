@@ -1,9 +1,14 @@
 # Changelog
 
+## v1.2.1 - UI Fixups
+- Fixes a bug where the configuration page doesn't load when there is no character data the broadcaster config
+- Adds a Reset button for clearing character data
+
 ## v1.2.0 - Backend Service Update
 - Points configuration to retrieve character data from a new endpoint at xivbars.bejezus.com/api/character/:id
 - Removes XHR requests from the public facing app to reduce number of requests
 - Updates character data JSON structure
+- Adds a Reset Button
 
 ## v1.1.2 - Hotfix Release
 - Fixes an undefined config object preventing the Config panel from loading.
