@@ -75,7 +75,7 @@ export default class App extends React.Component {
       return (
         <div className={`App ${themeClass}`}>
           { loadingCharacter && <div className='message'>Loading...</div> }
-          { error && <div className='message'>Character not found</div> }
+          { (error || (!loadingCharacter && !appConfig?.character)) && <div className='message'>Character not found</div> }
           { appConfig?.character && <CharacterSheet Character={appConfig.character} /> }
         </div>
       );
