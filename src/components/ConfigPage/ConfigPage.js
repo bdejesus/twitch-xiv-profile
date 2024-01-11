@@ -36,11 +36,15 @@ export default class ConfigPage extends React.Component {
     // do config page setup as needed here
     if (this.twitch) {
       this.twitch.onAuthorized((auth) => {
+        // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
         this.Authentication.setToken(auth.token, auth.userId);
-        if (!this.state.finishedLoading) {
-          // if the component hasn't finished loading (as in we've not set up after getting a token), let's set it up now.
 
-          const configuration = JSON.parse(this.twitch.configuration.broadcaster.content);
+        if (!this.state.finishedLoading) {
+          const configuration = this.twitch.configuration?.broadcaster
+            ? JSON.parse(this.twitch.configuration?.broadcaster?.content)
+            : undefined;
+
+          console.log(this.state.appConfig);
           // now we've done the setup for the component, let's set the state to true to force a rerender with the correct data.
           this.setState((prevState) => ({
             finishedLoading: true,
@@ -59,6 +63,10 @@ export default class ConfigPage extends React.Component {
     const config = this.twitch.configuration;
     const appConfig = { ...config.appConfig, ...this.state.appConfig };
     this.twitch.configuration.set('broadcaster', '3', JSON.stringify({ appConfig }));
+  }
+
+  componentWillUnmount() {
+    this.setState({ finishedLoading: false });
   }
 
   selectTheme(e) {
