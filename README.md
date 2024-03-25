@@ -1,13 +1,11 @@
 > [!IMPORTANT]
-Hey all, this extension is dependent on https://xivapi.com/ which has stopped supporting the endpoint used to get character profiles. There's already a patch version submitted for review to twitch, but unfortunately, they've paused all reviews until they've reorganized:
+Hey all, this extension is dependent on an api endpoint used to get character profiles that is no longer supported. There's already a patch version submitted for review to twitch, but unfortunately, they've paused all reviews until they've reorganized:
 > 
 > > Reviews for Extensions, organizations, games, and chatbot verification are temporarily paused while we revise our processes. We are working to resume reviews as quickly as possible and will share updates with you shortly. Thank you for your patience and understanding. 
 > >
 > > – https://dev.twitch.tv/docs/
-
-
-
-So until they resume this process, there's not much we can do. Sorry for the inconvenience.
+>
+> So until twitch resumes this process, there's not much we can do. Sorry for the inconvenience.
 
 # Eorzea Profile Panel
 
