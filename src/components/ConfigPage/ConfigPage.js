@@ -96,7 +96,7 @@ export default class ConfigPage extends React.Component {
   }
 
   fetchCharacterData(characterId) {
-    const baseURL = 'https://xivbars.bejezus.com/api/character';
+    const baseURL = 'https://www.xivbars.com/api/character';
     const characterURL = `${baseURL}/${characterId}`;
     fetch(characterURL)
       .then((results) => results.json())
@@ -167,7 +167,7 @@ export default class ConfigPage extends React.Component {
                   disabled={message?.type === 'loading'}
                   data-state={message ? message.type : null}
                 >
-                  Load Profile
+                  { this.state.appConfig.character ? "Refresh" : "Load Profile" }
                 </button>
 
                 <button

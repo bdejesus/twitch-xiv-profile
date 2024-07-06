@@ -7,7 +7,7 @@ function OtherTools() {
       <div className='block'>
         <h3>
           <a
-            href='https://xivbars.bejezus.com'
+            href='https://www.xivbars.com'
             target='_blank'
             rel='noreferrer'
           >

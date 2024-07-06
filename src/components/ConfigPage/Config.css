@@ -48,7 +48,7 @@ hr {
 
 input[type='text'] {
   border: 1px solid currentColor;
-  border-radius: 4px;
+  border-radius: 2px;
   font-size: 16px;
   font-weight: 400;
   padding: 0 6px;
@@ -82,9 +82,13 @@ input[data-state='error'] {
 
 .button {
   color: #fff;
+  box-shadow:
+    inset 1px 1px rgba(0,0,0,0.1),
+    inset -2px -2px 0 0 rgba(0,0,0,0.1),
+    inset 2px 2px rgba(255,255,255,0.1);
   background-color: #666;
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 700;
   display: inline-flex;
   height: 32px;
   align-items: center;
@@ -92,9 +96,10 @@ input[data-state='error'] {
   padding: 0 16px;
   line-height: 1.2;
   border-radius: 4px;
-  border: 1px solid #111;
+  border: 2px solid #FFF;
   cursor: pointer;
   text-transform: uppercase;
+  text-shadow: 2px 1px 0 rgba(0,0,0,0.15);
   transition-property: background-color, border;
   transition-duration: 0.15s;
   transition-timing-function: ease;
@@ -112,7 +117,6 @@ input[data-state='error'] {
 
 .save-button {
   background-color: #009900;
-  border: 1px solid #006600;
   margin-right: 10px;
 }
 
