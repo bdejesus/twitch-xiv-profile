@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.2 - API Endpoint Migration
+- Updates api URL to point to the new url at www.xivbars.com
+- Updates the config screen to say "Refresh" instead of "Load Profile" when character date exists
+
 ## v1.2.1 - UI Fixups
 - Fixes a bug where the configuration page doesn't load when there is no character data the broadcaster config
 - Adds a Reset button for clearing character data
